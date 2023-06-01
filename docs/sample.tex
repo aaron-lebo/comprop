@@ -1,0 +1,1532 @@
+\documentclass[doublespacing]{utdthesis}
+% For one-and-a-half spacing, use: \documentclass[halfspacing]{utdthesis}
+
+%%% Load any desired packages in the space below.
+%%% Warning: Do not load packages that change the margins, headers, or footers!
+%%%
+% Optional: If you want to use Times as your font, load it here.  Note that
+% although package "times" should work, it may not be the best choice.  Newer
+% LaTeX distributions offer "mathptmx" and "newtxtext,newtxmath" as superior
+% replacements.  You should find out which is best for your LaTeX.  (If this
+% sounds confusing, you probably shouldn't try to change the font to Times.)
+%\usepackage{times}
+%
+% Optional: If your LaTeX has microtype, use it to improve text quality:
+\usepackage{microtype}
+%
+% Recommended: If your dissertation contains math, use the AMS packages:
+\usepackage{amsmath,amssymb,amsthm}
+%
+% Recommended: If your dissertation needs embedded graphics, use graphicx:
+\usepackage{graphicx}
+%
+% Recommended: If your bibliography contains web page URLs, the url package
+% improves their appearance (e.g., better line breaking):
+\usepackage{xurl}
+%
+% Required: To satisfy UTD's formatting requirements for citations, use the
+% "natbib" package.  (Use other citation packages at your own risk; not all
+% are flexible enough to meet UTD's requirements.)  If you wish to use numeric
+% citations, change "authoryear" to "numbers" below.  Use the "chicago" BibTeX
+% style, which most closely matches the Turabian formatting required by UTD.
+% UTD mandates a blank line between each pair of bibliography entries, so set
+% \bibsep as shown below.  Finally, if you are accustomed to using \cite as
+% your citation macro, point it to natbib's \citep macro as shown.
+\usepackage[authoryear]{natbib}
+\bibliographystyle{chicago}
+\setlength{\bibsep}{12pt plus 1pt minus 1pt}
+\let\cite=\citep
+%
+% Required: If you have any wide tables or figures that need to be typeset
+% in landscape, use the rotating package:
+\usepackage{rotating}
+%
+% Optional: If you use hyperref to auto-generate hyperlinks, always load it
+% LAST since it modifies everything else.  In addition, only load hyperref if
+% you use pdftex or pdflatex to generate PDFs directly.  Do NOT use it if you
+% use plain tex or latex to generate a DVI file.  (If you are generating DVI
+% files which you then convert to PDF, you should seriously consider switching
+% to pdflatex.  The DVI format loses information because it cannot support
+% modern PDF document features.  Using pdflatex to generate PDFs directly
+% therefore results in documents of significantly higher quality.)
+\usepackage{ifpdf}
+\ifpdf
+  \usepackage{hyperref}
+\fi
+
+\usepackage{booktabs}
+\usepackage[skip=0.5\baselineskip]{caption}
+\usepackage{epigraph}
+%
+%%% End of packages.
+
+%%% Define all your personal macros here (if you have any).
+%
+\providecommand{\hyperref}[2][]{#2}
+
+\newenvironment{exampleclasscode}
+ {\parindent=1cm\vskip0pt plus2pt minus0pt\begin{verse}}
+ {\end{verse}\vskip0pt plus2pt minus0pt}
+%
+%%% End of personal macro definitions.
+
+
+%%% The following definitions MUST come before the document begins.
+%
+\author{Aaron Lebo}
+\title{comprop \\ Computational Propaganda on reddit.com (2013-2022)}
+\thesistype{Dissertation}  % or "Thesis"
+\degreefull{Doctor of Philosophy}
+\degreeabbr{PhD}
+\subject{Political Science}
+\graduationmonth{May}
+\graduationyear{2023}
+\prevdegrees{AS, BA, MA} % comma-separated list of PREVIOUS degrees
+
+% List committee members in order.  Mark chairpersons with a "*":
+\committeemember*{Patrick T. Brandt}
+\committeemember{Vito D'Orazio}
+\committeemember{Euel W. Elliott}
+\committeemember{Jennifer S. Holmes}
+%
+%%% End of definitions.
+
+
+%%% Beginning of actual thesis document.
+
+\begin{document}
+
+\frontmatter
+
+\signaturepage
+
+\copyrightpage{2023} % optional
+
+\begin{dedication} % optional
+Dedicated to my grandparents.
+\end{dedication}
+
+\maketitle
+
+\begin{acks}{April 2023} % date when thesis first submitted to committee
+The author thanks Patrick Brandt for his support and guidance while completing this work.
+I also thank the rest of my dissertation committee: Vito D'Orazio, Euel Elliott, and Jennifer Holmes, as well as Brian Berry for their input and help.
+Not listed but not forgotten are every professor I've had as a student in the EPPS at UTD, I'm inspired by their knowledge and goodwill.
+Thanks to my best teachers, my parents, you have always been there for me, and my brothers, you have never done anything but make me proud.
+Finally, \#utdlug, thanks for being my friends over the last 9 years.
+\end{acks}
+
+\begin{abstract}
+This dissertation concerns the use of computational propaganda, or the use of bots, trolls, algorithms, disinformation, misinformation, and astroturfing campaigns on the social media website reddit.com.
+Simple heuristics and tools like Word2vec are used to identify ideological groups of users.
+Three separate case studies include the annexation of Crimea by Russia in 2013, the 2016 presidential election in the United States, and the 2022 invasion of Ukraine by Russia.
+They establish the historic context of advances in communication technology and find evidence of ideological capture by pro-Russian and other users.
+\end{abstract}
+
+\tableofcontents
+\listoffigures % required if you have any figures
+\listoftables % required if you have any tables
+
+\mainmatter
+
+\chapter{Introduction}
+\label{c:intro}
+
+\epigraph{Along the whole line of road there are men (they say) stationed with horses, in number equal to the number of days which the journey takes, allowing a man and horse to each day; and these men will not be hindered from accomplishing at their best speed the distance which they have to go, either by snow, or rain, or heat, or by the darkness of night.}{Herodotus}
+
+On November 8, 2016, in a surprise to most pundits and political analysts, Donald Trump was elected president of the United States.
+Two days later, Mark Zuckerberg, CEO of Facebook, was asked whether Russian interference on Facebook affected the election.
+He responded that this was a ``pretty crazy idea'' \cite{spangler2016}.
+Since then, after testifying before Congress and the revelations of Cambridge Analytica, Brexit, and the Mueller Report, Zuckerberg and Facebook have admitted to and made attempts to combat ``fake news'' and foreign interference on their platform \cite{spring2020}.
+
+Partisans to this day argue about whether this interference exists and whom it favors, but the most obvious question might be: how could this happen?
+Zuckerberg famously started the social network at the age of 19 in his Harvard dorm room.
+In a move of marketing brilliance, the site was slowly made accessible on college campuses, capturing some of the most valuable early adopters.
+Eventually the site was made available to anyone, surpassing 2 billion active users by 2017, perhaps the single largest grouping of people in history \cite{yurieff2017}.
+Facebook became the darling of Wall Street, Zuckerberg was able to suggest ``young people are just smarter'', and the company hired tens of thousands of the best developers, data scientists, and assorted PhDs, while gathering a truly massive amount of public and private data \cite{coker2007}.
+Yet, Facebook and its leader were blind to the concerted, large-scale foreign political action on the platform.
+How did this happen?
+
+In answering this, it is important to not single out Facebook, Zuckerberg, or any other source, they are part symptom and cause of the rise of social media, which is itself only the most recent development of communication technology.
+Modern technology has had a massive impact on how individuals and groups communicate as well as how they engage in political discussion and competition. It is now possible to distribute information and agendas to hundreds of millions of people with nothing more than a connection to the Internet.
+This potential was first widely demonstrated during the Arab Spring uprisings in 2011 \cite[p. 1376]{lotan2011}.
+It is now common for reports, videos, and opinions to be generated while events are ongoing, as seen in domestic incidents in Orlando and Dallas and international events in Munich and Turkey among others, just during 2015 and 2016.
+Russia's invasion of Ukraine in 2022 has similarly provided the world with uncountable hours of combat footage and atrocities.
+
+Criminal organizations already have a long history of using modern communication to great effect.
+Drug cartels have evolved from narcocorridos to using social media to distribute videos of their actions against rival gangs.
+ISIS used the encrypted application Telegram for both private communication and recruitment efforts, and Islamic terrorist groups produce content with high production values \cite{bloom2019navigating}.
+This behavior is to be expected, terrorist and revolutionary movements are largely predicated on reaching a disproportionate audience using cheap methods, usually at a technical disadvantage to the opponent.
+This is, in fact, part of the logic of suicide bombings: it is very effective to cause mass casualties and draw public attention by attacks on soft targets with limited available resources \cite{bloom2004}.
+
+It is worth noting that Western sources of information are relatively soft targets, that is, they are unprotected, at least in regards to the Internet. While China is guarded by the “Great Firewall” from outside influences, and other authoritarian regimes take similar measures, on the Western internet,
+anybody is free to come and go.
+This openness allows domestic and foreign groups to directly communicate with and affect the average citizen in ways really never seen or anticipated.
+If Putnam \citeyear{putnam1988} was able to imagine two-level games with a strict separation between leaders and domestic constituencies in the late 1980s, they require rethinking in an era where leaders can cheaply engage and communicate with their opponent’s constituents through social media or other means.
+While leaders and states still manage to frame issues, information can no longer be effectively contained or controlled and groups of all sizes and backgrounds now compete in complex multilevel games of debate and opinion on any given political issue.
+
+This engagement is sometimes overt and even relatively benign, such as pro-Russian articles on Russia Today.
+It is more nefarious in incidents such as the hacking of the Democratic National
+Convention by Russian intelligence services.
+Materials obtained from these hacks are often released to the world through sites such as WikiLeaks, and in an age of increased democratization and transparency, can be cast as a social positive.
+These attacks favor disadvantaged groups.
+Why engage hardened military targets when even more damage can be done by phishing the password of a high-level official?
+Terrorist groups have already shifted overt action towards less protected targets \cite[p. 215]{brandt2010}.
+Such virtual target selection should be expected by state or non-state and foreign or domestic actors.
+
+This targeting can lead to less obvious or hidden engagement.
+Social media websites are designed with very simple voting schemes and rules to reach the largest audience, not to resist capture.
+The flaws in these overly simplistic systems have been criticized at least as far back as Plato and the ancient Greeks \cite[1.7]{xenophon} \cite[VIII, 555b-562a]{plato}.
+Groups can control the agenda and determine what topics are viewed and discussed, and then steer discussion towards their desired end.
+As the public increasingly gets its news from Twitter, Facebook, and other
+networks, and as journalists themselves are increasingly informed by social media, this becomes an incredible tool for propaganda and other forms of disinformation.
+
+Another way of looking at it is in terms of social capital, to which Putnam \citeyear{putnam2000} says, ``...networks and the associated forms of reciprocity have value. They have value for the people that are in them, and at least in some instances, demonstrable externalities...''.
+He later states those externalities can be positive or negative.
+This is his argument in regards to political development in Italy: social
+institutions created horizontal networks with positive externalities in the north and hierarchical networks and clientelism with negative externalities in the south \cite{putnam1993}.
+Modern social media consists of well-defined networks and their (less-defined) externalities which can directly be observed and studied.
+
+Importantly, those trying to observe and study these dynamics must realize that their environment has changed, too. 
+The ``Data Century'' provides an abundance of material, both a positive and a negative.
+While scientists and historians studying the past are often lacking good data, as of 2020, every day there were 23 billion new text messages, 5 billion searches, 500 million tweets, 294 billion e-mails, 222 million calls via Skype, and 360 terabytes uploaded to YouTube \cite{gill2021}.
+Data are the new oil, with immense value, as long as they can be harnessed.
+It is easy to forget that data have mass, as text, they fill pages and screens that human beings have limited ability to absorb, bad or irrelevant crowds out the good, and the act of processing or storing large amounts is expensive and time-consuming.
+Furthermore, much data are ``radioactive'' due to being of a private or personal nature and can only be safely handled using modern techniques like differential privacy \cite{d2015}.
+
+Academic study provides additional challenges.
+The explosion of available data has been made accessible with a wide variety of tools, often from social media companies themselves, but the state of the art is always changing.
+Researchers often deal with very limited budgets, few available positions, and tight deadlines, such that it is easy to get lost in an ocean of algorithms and toolkits, each hyped and with their own advantages and disadvantages, a choice only made more difficult because it is secondary to the work and goals of social scientists.
+Within hard sciences and STEM, social science is sometimes derided as ``not real science'', but the applied use of these tools by domain knowledge experts often presents the most opportunity.
+
+Today's researchers and social scientists have the advantage of great data sources but are required not only to be domain experts but to additionally have an awareness of psychology, sociology, history, statistics, algorithmic efficiency, language, user interface design, and a working BS meter.
+They must be effective communicators and to take care that their findings are not misrepresented.
+Untold damage and lost credibility occurred due to the mixed messaging of public health officials during the Covid-19 pandemic.
+In 2003, the Bush administration invaded Iraq and in the following years used a political science concept, democratic peace theory, to justify it (incidentally, the National Security Advisor, Condelezza Rice, had a PhD in political science) \cite{russett2005}.
+Moreover, in a global society, science, even when done in Western universities, can no longer afford to practice Orientalism or other well-meaning but biased approaches \cite{said1979orientalism}.
+Similarly, though the past sometimes reads as a list of men and technology is still very male-dominant, the male bias of perspective that filled academic departments is no longer an option in universities where women now outnumber men as incoming students.
+
+Effective science is science that reduces the personal bias of the researcher, even when that is not easy.
+Part of this and part of effective communication is for academics to understand that despite their own backgrounds, they exist in the elite of society.
+It is critical that they do not ``punch down'' and isolate those they are studying and in many cases in direct contact with, especially because terms used in academic contexts are commonly used in popular contexts in today's ``culture wars''.
+In the search for ``truth'', empathy, understanding, openness, representation, and humility are are more important than ever.
+
+It is with these issues in mind that the following chapters are written to meet the requirements for a PhD in political science.
+The objective is to write at what Steve Jobs called the intersection of technology and the humanities \cite{isaacson2012}.
+We use political science research, some old, some new, with applied modern but simple to understand statistics and machine learning techniques to study the impact of ``computational propaganda'' on the social media website Reddit across domestic and foreign contexts during the years 2013-2022.
+
+This is a study about perspectives and definitions.
+Some large percentage of academic arguments and perhaps the majority of arguments on the Internet are based on subtle differences in the meaning of shared terms.
+Therefore, before outlining the details and form of this research at the end of this chapter, we first establish relevant background context and definitions.
+
+\section{Science and Kuhnian Revolutions}
+
+Science is a term used loosely in many different settings, but at its heart is a system of obtaining knowledge about the world and the meta study of that process of knowing.
+There are other forms of knowledge gathering including faith (fideism) and reason (rationality), but what sets science apart is the systematic, repeatable method by which it works.
+The scientific method involves establishing a simplified model of the world, asking a question within that model with a corresponding hypothesis of expected outcomes, then empirical (evidence-based) testing of that question.
+Importantly, the process is repeatable and ideally it motivates the next series of questions, hypotheses, tests, and answers in an ongoing cycle \cite{gauch2012}.
+
+By virtue of being effective, science as a term is often associated with things that are not scientific, to give authority and credibility to issues that cannot or have not been rigorously tested, or for research topics that are still open questions.
+This is not unlike the dogmatism sometimes associated with religious belief.
+During the Covid-19 pandemic, ``trust the science'' and similar mantras were used in an attempt to guide people towards evidence-based action, but this backfired when the disease outpaced our knowledge of it.
+Scientism is the improper use of science or scientific claims, commonly as an appeal to authority \cite[p. 753]{peterson2003}.
+Politics provides an environment that is especially vulnerable to this.
+
+Science, being a human creation, is not a perfect set of steps neatly increasing in understanding.
+Thomas Kuhn \citeyear{kuhn1970} argued that science is instead a series of revolutions of progress.
+There exist models of the world which are mostly useful ways of explaining it, for example Isaac Newton's model of gravity.
+These eras or paradigms see accumulated research and development built up around them until we gradually discover inconsistencies with the existing model,
+eventually causing a paradigm shift to a new model with better explanatory power.
+For example, Einstein's theory of relativity.
+
+We highlight Kuhn's view to make clear that scientific progress is a social process.
+Models and paradigms will only be accepted when they are well-communicated.
+Conspiracy theories are one of the main forms of computational propaganda, where the underdog position is often framed as just giving the facts.
+The facts, unfortunately, are not sufficient, they have to be communicated in a way that the listener finds acceptable.
+This effective, unbiased communication a goal of this research and an explanation for our emphasis on empathy and understanding.
+
+\section{Computational Propaganda}
+
+Propaganda is as old as history itself.
+Some of the most ancient inscriptions we have are of Egyptian and Mesopotamian kings boasting of their exploits.
+Cyrus the Great, founder of the Persian Empire, was so effective in his presentation as a defender of human rights that his proclamation is written in the Old Testament \cite[Ezra 6]{bible}.
+During the Crusades, Christian and Muslim leaders adopted a variety of titles stressing their divinely appointed roles and success.
+Mehmet the Conqueror styled himself Kaiser-i Rum, the sovereign of Prussia was King in Prussia, not King of Prussia, and Napoleon became Emperor of the French, not Emperor of France, making their claims and limits widely known.
+
+The 20th century saw rapid development of propaganda.
+In commercial, capitalist contexts by the 1920s, Edward Bernays was writing of ``conscious and intelligent manipulation of the organized habits and opinions of the masses'' \cite{bernays2005}.
+He had a long career writing on this and public relations, and working with advertisers and government.
+Nazi Germany was a propaganda state, Hitler was obsessed with mass psychology, his speeches, planned monuments, and movies like Triumph of the Will were designed for their affect upon the viewer.
+Joseph Goebbels, his Propaganda Minister, was also his truest believer and most loyal follower, dying in the same manner with his family a day after Hitler.
+
+Of course Nazi Germany was not alone in using propaganda during World War 2.
+More recently, Noam Chomsky has written extensively of the ``manufactured consent'' that mass media can present to the public through simply covering or not covering issues around the world \cite{herman2010}.
+The story on the front page of the New York Times will naturally generate more interest than the single paragraph found on page 32.
+Propaganda has been extensively studied and practiced in the United States for over a century.
+
+The Soviet Union embraced it, too, its continuous development by the Soviet regime and intelligence services created what only recently has been termed computational propaganda.
+Computational propaganda is a subset of propaganda, the differentiator being the tools used.
+In the same manner Twitter has made it possible for individuals to reach millions, computers and networks allow individuals or small groups (including government and parties) of people to have exaggerated reach spreading ideas across the world.
+These attacks are automated using bots and algorithms, and often involve ``astroturfing'' campaigns which give the illusion of mass support.
+The emphasis is the scale, the ``Big Data'' aspect of the propaganda, only made possible within the last two decades with the spread of the Web and social media.
+Computational propaganda can take place within a country and across borders, Woolley and Howard \citeyear{woolley2018} provide case studies of Russia, Ukraine, Canada, Poland, Taiwan, Brazil, Germany, the United States, and China.
+Much of the following chapters focus on its extensive use by Russia and Vladimir Putin's regime.
+
+\section{Active Measures}
+
+Propaganda is just one part of a larger strategy of ``active measures'' used by Russia after the invasion of Crimea in 2014, with roots going back to the founding of the USSR.
+The key to these measures is the use of disinformation, or the intentional spread of false information.
+Disinformation is not new, George Washington was an active practitioner, the fake Potemkin villages of Catherine the Great's minister provide another 18th century example, itself a possible myth \cite[ch. 24]{chernow2010} \cite[p. 379]{montefiore2016}.
+The Soviet variant was different in its targeting of the general public. 
+More recently, misinformation has been used to describe unintentionally false beliefs, but the end result, the spread of falsehoods and the breaking down of social trust is the same.
+
+Rid \citeyear{rid2020} details numerous Soviet disinformation campaigns.
+These include the painting of swastikas in post-WW2 West Germany to undermine the government, which led to a spike in swastikas and anti-Semitism globally, as well as a concerted effort to portray AIDs as a creation of the US government among minority groups during the 1980s.
+The United States, specifically the CIA, competed with this for a short time in the 1950s with glossy magazines and newspapers on topics such as jazz, or with fake party newsletters and media.
+These were printed by West German fronts and distributed in East Germany to spread influence but were quickly abandoned due to unclear cost-effectiveness.
+Outside of the 1940s and 50s, active measures were primarily a Soviet tool.
+
+We highlight three campaigns of the early Soviet era: Operation Trust, the Tanaka Memorial, and the Whalen forgeries. 
+The Trust was a plot by the Cheka (Russian intelligence) immediately following the Russian Civil War in which Alexander Yakushev, a monarchist opposed to the Soviets was captured and turned.
+In this new role as an apparent monarchist that fed information to his Chekist handlers, he met with exiled anti-Bolshevist forces in Europe, including the Grand Duke Nikolai, whom he convinced to remain inactive by depicting the fall of communist rule as only a matter of time.
+This delay gave the government enough time to consolidate its power, permanently ending threats from emigres abroad \cite[ch. 1]{rid2020}.
+
+In 1925, the Cheka received a document from China, allegedly photographed in archives in Tokyo which detailed plans by the prime minister, Tanaka, to invade eastern China.
+In order to hide their involvement, the document was sent and sold in China where it was translated and printed in a newspaper in Nanjing, then retranslated and rediscovered in Tokyo.
+When Japan later invaded Manchuria, the validity of the document seemed confirmed, and it was subsequently covered in the New York Times in 1932, discussed before Congress in 1940, and referred to in anti-US material in Kuwait in 1987.
+In the years since, basic facts have been shown to be wrong, the original document has never been recovered, and Soviet intelligence has repeatedly flipped on whether it was a forgery.
+Leon Trotsky, present but dubious about its authenticity in 1925, spent the last years of his life believing it was genuine.
+In the end, the Japanese disavowals of its authenticity were only seen as proof it was real, anger at Japanese militarism outweighing evidence \cite[ch. 2]{rid2020}.
+
+In the United States, a confirmed forgery brought down Grover Whalen, police commissioner in New York City.
+Whalen was strongly anti-communist and used the discovery of six letters in 1930 as evidence that the Communist International, directed from Moscow, was operating in the city.
+The authenticity of the documents was immediately questioned, but Whalen insisted they were genuine.
+When Max Wagner, a local printer, showed that he was the original source of the letters which had been dropped off at his printshop by a stranger, Whalen's unpopularity and loss of credibility led to his resignation \cite[ch. 3]{rid2020}.
+
+The documents were apparently part of a larger ruse to cast doubt on genuine material.
+In other instances, Soviet intelligence intentionally mixed real and fake items together, the controversy over the exposure and debate was then further  manipulated to cause divisions and distrust.
+They are similar to the ``Hunter Biden laptop'', which was dropped off at a repair shop in 2016.
+Because the chain of custody for the data was impossible to track, because it was similar to other Russian kompromat schemes, and perhaps out of partisanship, Twitter and Facebook restricted sharing of the story during the 2020 election \cite{roose2020}.
+4 years earlier, the election was affected by the FBI's announcement of investigation into a laptop connected to the Clinton camp. 
+
+\section{Framing}
+
+Disinformation is a form of framing in that it distorts how we perceive new data.
+Individuals in the 1940s were more likely to believe that the Tanaka Memorial was real if they wanted it to be.
+Two people can look at the exact same set of facts and come to very different conclusions due to their own bias or perspective.
+Riker coined the term ``heresthetic'' to describe how politicians can frame issues to change a losing position to a winning ones.
+Instead of engaging in rhetoric arguing over existing options, politicians can strategically bring related but different issues into the discussion in order to change the dimensionality, the debate no longer over option 1 but instead over options 1 and 2, to which voters will have different preferences \cite{riker1986}.
+
+In this research, we analyze different groups of political users, progressive and conservative, where framing of issues is obvious.
+Riker's research was right at the beginning of the cable TV, talk radio, Internet era, and we argue this change in technology is critical to dimensionality.
+Prior to the 1990s, there were limited large media outlets that mostly agreed on form and the importance of issues.
+Today, anyone can and often will change discussion around topics by introducing new dimensions, making political discourse much more chaotic, and group beliefs seemingly contradictory.
+
+\section{Dimensionality}
+
+Dimensionality is an under appreciated aspect of politics and discourse.
+Voters are often described along a single dimension: progressive or conservative, Democrat or Republican.
+Of course, voters are not that simple, and sometimes we use more specific measures like social and fiscal stances.
+Voters can be fiscally conservative but socially progressive, and vice versa.
+We often struggle with multiple dimensions, but 3D space is fairly intuitive: X (left, right), Y (top, bottom), Z (forward, backward).
+Time is a fourth dimension, maybe best explained in the first chapter of H.G. Well's \emph{The Time Machine}, an axis that so far we can only move along in a single direction \cite{wells}.
+
+When analyzing text and meaning, we often use hundreds or thousands of dimensions, automatically detected from the use of language.
+While we can represent stances as 0 or 1, progressive or conservative, we can also measure them as ranges, 0 being the most progressive, 10 being the most conservative, or as decimals, 0.0 the most progressive, 1.0 the most conservative, and 0.348573 somewhere in between.
+Humans struggle to think in these terms, but computers do it naturally.
+Not only is dimensionality an important part of understanding machine learning, but we argue that the reduction of dimensionality to what is essentially good or bad, apparent in the following Reddit data, is detrimental to discourse.
+Moreover, social scientists have the tools to think in higher dimensions, and as such should no longer restrict themselves to limited measurements.
+
+\section{Selectorate Theory}
+
+Selectorate theory was developed by Bruce Bueno de Mesquita.
+It states that in political contexts, the group that makes decisions or matters is often much smaller than the group for which they are making decisions.
+In a democracy, the selectorate are those that can vote, and the winning selectorate the portion needed to win election.
+Despotic regimes often have a much smaller winning selectorate, the power behind the throne \cite{de2005}.
+This different structure and base necessary to appeal to explains the difference in behavior of autocracies and democracies, it is also a useful way to think of the Putin regime and Russia.
+BBDM (as he is known in political science) is perhaps better known to the public due to History channel shows calling him the ``next Nostradamus'', presumably due to the effectiveness of models that make predictions focused on the winning selectorate.
+We will return to this popular aspect in discussing conspiracy theories, but it is this very narrow selectorate which drives and dominates discussion that we want to highlight in the following chapters.
+
+Selectorate theory also in part explains how Facebook was caught off-guard in 2016 and why Putin and Russia's invasion in 2022 has proven so disastrous.
+Facebook's winning selectorate is very small despite having a massive number of users that have some stake in the system.
+In meeting the expectations of their inner circle and in shaping that inner circle to them, leaders in many settings can be locked into echo chambers that tell them what they expect to hear, leading to information gaps and encouraging suboptimal behavior.
+
+\section{Graph Theory}
+
+We end this section with a summary of the history of graph theory and textual analysis.
+Social network analysis has a long and wide history.
+In the 1930s, the founder of group psychotherapy, Jacob Moreno, invented sociograms, some of the earliest network diagrams \cite{moreno1934}.
+Preceding him, George Simmel coined the phrase ``webs of relations'' and the importance of dyads and triads can be traced to his work \cite[p. 249]{ward2011}. 
+By the 1960s, Stanley Milgram was experimenting with ``small-world'' experiments which would eventually turn into the concept of six-degrees of separation: everyone in the world is connected by six or fewer steps in
+relationships \cite{milgram1967}.
+
+The first uses within political science focused on qualitative description of world hierarchies of power \cite{galtung2019}. 
+Similar research continued throughout the 1970s, though most of the major
+advances remained in other fields.
+Harrison White took network analysis from an emphasis on nodes and their attributes to a study of their relations and connections. Just as importantly, he later discovered ``structural equivalence'', which says nodes located at similar places within different networks should display similar behavior \cite{lorrain1971}.
+His students, continuing this emphasis, included Granovetter \citeyear{granovetter1973}, who studied ``weak ties'' and found that bridging networks with diffuse ties were more effective than dense networks of many ties within certain
+contexts, such as social mobility and job searches.
+This entire era of research showed that relations and typologies may be as or more important to behavior as the objects they connect.
+
+By the early 1980s, an empirical school had developed out of sociology regarding the study of social networks, which led to the development and discovery of numerous measurable features of networks used in later research \cite[p. 249]{ward2011}. 
+These include prestige, centralization, closeness, cliques, bridges, density, structural holes, path length, homophily, centrality, in-degree and out-degree, Eigenvector centrality, betweenness, and clustering \cite{burt1982, de1978, mcpherson2001, maoz2006, hammerli2006, fowler2007, kolaczyk2009, fowler2011}.
+
+The use of network analysis within political science has remained limited until recently.
+There have been studies with a political bent, such as Padgett and Ansell’s \citeyear{padgett1993}, analysis of the Medici takeover of Florence.
+Strictly political research took off after 9/11 with the study of terrorist cells.
+Krebs \citeyear{krebs2002} demonstrated the obvious importance of Mohammad Atta in the network of the hijackers.
+Similarly, Pedahzur and Perliger \citeyear{pedahzur2006} took a look at Palestinian suicide bomber networks, noticing the importance of hubs.
+Sageman has done extensive analysis on terrorism and social networks.
+Yang, Liu, and Sageman \citeyear{yang2006} detail innovative ways of visualizing the US Millennial Plot and Hamburg Cell.
+Of particular interest to this research, his 2004 book comes to the
+conclusion that in modern terrorist networks, social bonds precede ideological commitment, and their emergent and decentralized nature make them especially resilient \cite{sageman2004}.
+Perhaps social media networks follow this same pattern of connection and then self-selected extremism.
+
+Social network analysis has also seen a surge of interest within international relations.
+Hafner-Burton and Montgomery, working from the premise that ``outcomes follow structure'', found that data from 1885-1992 shows that conflict increases when states are aligned in structurally similar clusters, and that increases in material inequality might be offset by sociological power derived from preferential trade agreements \cite{hafner2009, hafner2006, hafner2008}.
+Cranmer and Desmarais have a number of statistical analyses of international relations and suggest that simple models of dyads miss much of the interdependency inherent in alliances and that alliance formation is largely driven by network structures \cite{cranmer2012, cranmer2012toward}.
+Finally, network centrality apparently constrains aggression \cite{kinne2012}.
+
+Despite this recent interest, social network analysis still has much untapped potential for political science.
+Lazer notes that the very term international relations is somewhat of a misnomer: though graph theory suggests every country is a node and every alliance, conflict, and trade flow an edge, structural network analysis methods have not been systematically applied to many contexts \cite[p. 63]{lazer2011}.
+Recent work shows promise through its focused applications.
+
+\section{Textual Analysis}
+
+In comparison, text analysis has a long history in political science, which is only natural because ``language is the medium for politics and political conflict'' \cite[p. 269]{grimmer2013}.
+Early studies include Mosteller and Wallace’s \citeyear{mosteller1963} search for the authorship of the unattributed Federalist Papers.
+Mayhew’s seminal work makes an emphasis of the uses of particular types of political speech such as credit claiming and by the mid-1990s campaign advertising was being studied for positive or negative tone \cite{mayhew, iyengar}.
+Increasingly systematic and advanced analysis has been used for event coding via hidden Markov models and ideological scaling of members of Congress through Wordscores, a dictionary-based supervised learning method \cite{schrodt2000, laver2003}.
+
+The proliferation of cheap computing power and readily available datasets has led to an explosion of methods and their applications to political science.
+Improving on Wordscores, Slapin and Proksch developed Wordfish, an unsupervised learning method, and used it to estimate policy positions from German party manifestos and debates in the Irish legislature \cite{proksch2008, proksch2010}.
+Grimmer \citeyear{grimmer2012} and Lowe and Benoit \citeyear{lowe2013} have since validated Wordfish with supervised learning methods: it meets the standards of human coding, assuming ideological dominance in the text \cite{grimmer2012, lowe2013}.
+Wordfish is only one of many recent innovations in the area.
+Support vector machines have proven useful for classification, culling more than 92\% of irrelevant documents for input to the Militarized Interstate Dispute 4.0 dataset \cite{dorazio2014}.
+With similar goals but different methods than Wordfish, various Bayesian models have been applied to coding political texts \cite{grimmer2010, elff2013}.
+
+More recently, neural networks (a form of machine learning) have seen continued development and application.
+We make extensive use of Word2vec, which converts words in text to vectors (lists) of numbers that are directly comparable.
+BERT and other models using the ``transformer'' architecture have made additional improvements in tracking the meaning of terms within specific contexts, this is an area which sees continual progress due to investment by Google, Facebook, and others.
+Importantly, each method has different advantages and disadvantages depending on the sourced dataset as well as the problem at hand.
+There is no globally best method for automated text analysis, it is important that the researcher understands the tradeoffs and is able to justify their particular approach \cite{grimmer2013}.
+
+\section{Dataset}
+
+Reddit, Inc. runs reddit.com, a social media website which has existed since 2005.
+It allows users to submit links for discussion to curated groups (called subreddits), which are generally focused around a particular niche.
+Other users may upvote or like submissions and comments, and well-liked
+content gets more prominently displayed.
+This general model, with several tweaks, is the one that dominates every major social network.
+
+Reddit’s design is not very different than a number of other kinds of Internet bulletin boards, but its reach and popularity is rare.
+As of May 2016, according a Pew survey, nearly 4\% of all Americans use the site and 78\% of those consumers use it as their primary form of news \cite{pew2016}.
+It now regularly hosts question and answer sessions with athletes, actors, and political figures such as President Obama and Donald Trump.
+In fact, that same survey shows that Facebook and Twitter are even more popular sources of news than Reddit.
+Twitter has a smaller but similarly global audience.
+This raw size makes Facebook and Twitter important if obvious targets of social science research.
+Within the scope of this particular study, however, Reddit has several advantages.
+
+With the dynamic and varied data inherent to a social network, replicability becomes a concern.
+All research deals with the relative ease of access, potential licensing issues, and the monetary costs of any given dataset.
+Facebook and Twitter release their data under relatively closed licensing terms.
+Reddit’s more liberal licensing terms means that the entire data corpus has been collected and made available at various times by different entities, with one archive including content from January 2008 through 2022, which we use.
+Some early analysis has already been done using this dataset and it is easily made current via a well-documented API \cite{balsamo2021}.
+
+Besides availability, Reddit has several features which provide metadata useful for research.
+In an analysis of content and relationships any additional data is invaluable. For example, video of an interview is more telling than its transcript: despite recording the same scene, video has more information.
+Internet discussions often contain substantial and varying levels of information rich metadata such as timestamps, location information, follower and following relationships, account creation information, user history, etc. In trying to identify user patterns any single piece of metadata is key, especially if these patterns and relationships may be intentionally hidden, as we would expect them to be in a disinformation campaign.
+
+In terms of specific features, Reddit has a richer discussion and group model than Twitter.
+Twitter comments are limited to 140 characters, while Reddit’s comments may be up to 10,000 characters in size.
+Additionally, Reddit’s comments are explicitly threaded (each contains a flag to its parent) and while Twitter has no concept of groups, there are tens of thousands of ``subreddits'' of varying size and subject.
+Facebook, while featuring threaded discussions and groups, more aggressively polices user accounts.
+Until recently it had a real name policy which was strictly enforced, and multiple user accounts were disallowed, whereas ``throwaway'' accounts are used if not encouraged on Reddit.
+In sum, Reddit has more accessible and richer data for the purposes of
+research.
+
+\section{Methods}
+
+The next three chapters follow the same format: 
+
+1. We download, filter using keywords, and analyze the data for a specific timeframe.
+
+2. We identify groups of users (pro-Russian, progressive, conservative) based on heuristics including from which domains or to which subreddits they post.
+
+3. We analyze the links and Wikipedia articles posted by each group.
+
+4. We use network analysis algorithms like k-means and measures like betweenness centrality to observe how users cluster together in discussions and which users drive discussion.
+
+5. We create Word2vec models for groups of users which allow us to discover what words users associate with other words and display them using graphs of talking points.
+
+Chapter 2 is a foreign application looking at pro-Russian users and their behavior posting about the invasion of Crimea from 2013 to 2015. 
+Chapter 3 is a domestic study of progressive and conservative users and their posting related to the 2016 presidential election from 2015 to 2017.
+Chapter 4 details the rise of conspiracy theories in political discourse, at home and abroad, as well as  the most recent Russian computational propaganda used during the invasion of Ukraine in 2022.
+
+In the process of this research, we built a small toolkit using the Python and R programming languages that makes it possible to replicate these analyses for any topic and any user groups throughout Reddit's history.
+We use modern techniques but select those based on being easy to use and understand.
+This is science in the open, upon completion this will be posted online and questions, objections, and improvements welcomed.
+This is a work about narratives and as such is written with an emphasis on the old but sometimes forgotten interconnectedness from which has emerged the technology discussed within.
+
+We expect that groups of partisan users will be easily identifiable and will show strong bias in how they interpret and discuss various topics.
+We cannot due to the limitations of this research identify whether partisan users are connected to government or other organized entities.
+In the course of this research, we seek to answer the following questions:
+
+1. Do social media networks show evidence of being controlled or captured by ideologically-extreme entities including special interest groups, nation-states, corporations, and politicians?
+
+2. If this capture is happening, to what extent is it impacting objective coverage and reporting of events? In other words, what, if any, are the negative externalities from these forms of social capital?
+
+\chapter{rusprop: Crisis in Ukraine (2013-2015)}
+\label{c:rus}
+\epigraph{But they are provided with horses and all the other necessaries just like those we have described, so that the Emperor's messengers, come they from what region they may, find everything ready for them.}{Marco Polo}
+\input{rus}
+
+\chapter{usprop: The 2016 Presidential Election (2015-2017)}
+\epigraph{Nations reel and stagger on their way; they make hideous mistakes; they commit frightful wrongs; they do great and beautiful things. And shall we not best guide humanity by telling the truth about all this, so far as the truth is ascertainable?}{W. E. B. Du Bois}
+
+\input{us}
+
+\section{Results}
+
+\subsection{Dataset}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{things}
+\caption{Comments and submissions}
+\end{figure}
+
+The purpose of this chapter's analysis is to apply the existing literature and the framework from Chapter 2 to the 2016 presidential election in the United States.
+Our base dataset contains all 2,715,684,936 items or 278,240,494 submissions and 2,437,444,442 comments by 26,777,565 users across 806,736 subreddits on Reddit from January 2015 to December 2017.
+Comments and submissions posted to Reddit each month continue to increase linearly and change consistently with each other; the ratio of submissions to comments is never lower than 10.15\% or higher than 12.31\%.
+In January 2015, there were 53,851,542 comments and 5,460,892 submissions, in December 2017, there were 85,973,810 comments and 10,557,874 submissions, increases of 59.65\% and 93.37\%.
+Eternal September returns.
+February 2017, the month after Trump's inauguration, brings decreases of -10.56\% for the comments and -6.85\% for the submissions, the biggest decrease in items month to month over the 3-year period.
+ 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2016/progressive_count}
+\caption{Comments and submissions (progressive subreddits)}
+\label{fig:progressive_count}
+\end{figure}
+
+We identify ``progressive'' and ``conservative'' subsets of the data of popular political subreddits.
+Figure \ref{fig:progressive_count} displays the progressive subreddits sorted by total number of items over the three-year period: r/politics (45,844,728 items), r/SandersForPresident (5,034,481), r/hillaryclinton (1,523,362), r/WayOfTheBern (641,654), and r/democrat (204,129).
+The activity of these subreddits maps closely to the campaign cycle.
+None of the subreddits register more than a small uptick in activity with the first debate in October 2015.
+r/SandersForPresident peaks in March 2016 with 868,673 items before declining to 84,091 items in January 2017.
+r/democrats has a delayed peak in April 2016 (13,630 items), then sees reduced interest until a rebound in November 2016 (11,130). 
+r/WayOfTheBern also peaks in November (66,553 items) after opening in July with the Clinton nomination.
+Both r/politics and r/hillaryclinton show increases, dips, then increases during the primary season (``U''), but the latter peaks in October (235,561) before sharply declining in January (26,528), while r/politics peaks in November (2,700,587) and maintains slightly reduced traffic after Trump's inauguration. 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2016/conservative_count}
+\caption{Comments and submissions (conservative subreddits)}
+\label{fig:conservative_count}
+\end{figure}
+
+Figure \ref{fig:conservative_count} displays the conservative subreddits sorted by total number of items over the three-year period: r/The\_Donald (28,655,184 items), r/Conservative (1,595,012), and r/Republican (219,768).
+Despite showing an awareness of and strategy including social media, the runner-up, Ted Cruz, does not have a large presence on Reddit.
+Much like the progressive subreddits, these conservative subreddits track the campaign cycle and only see slight upticks in activity with the first debate.
+r/Republican peaks in March 2016 (17,233), rebounds in January 2017 (13,358), then declines to levels seen before the election with 3,309 items in December 2017.
+r/Conservative similarly peaks in March (83,501) and is more interested in the inauguration (59,540) than election (55,282), but maintains consistent traffic after November.
+The activity on r/The\_Donald is representative of his candidacy.
+In January 2016 there were only 46,003 items, increasing 2,230.37\% by March with 1,072,041 items, then following with the primary season trough (``U'') found in some of the progressive subreddits.
+The subreddit peaks with 2,518,011 items in November 2016 and continues with high traffic through December 2017 (1,018,830).
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2016/match_count}
+\caption{Comments and submissions}
+\label{fig:match_count}
+\end{figure}
+
+Figure \ref{fig:match_count} displays matches and relatives by month.
+The text component of each item (title and selftext for submissions, body for comments), is processed using spaCy, then filtered through a set of keywords and terms (case-insensitive).
+The item is considered a ``match'' if ``Clinton'', ``Trump'', ``MAGA'', or terms related to ``caucus(ing)'' are present, or if various combinations of ``2016'', ``Democratic'', ``Republican'', ``Donald'', ``Hillary'', and terms related to ``debate(s)'', ``campaign(s)'', ``candidate(s)'', ``election(s)'', ``nominee(s)'', ``presidential'', ``primaries'', and ``vote(s)'' in the ``United States'' are found.
+In addition to these ``matches'', items connected to them are marked as ``relatives''.
+For submissions, this includes every comment in response to it, for comments, this includes the submission the comment is in response to as well as any comments (children) replying to the match and the replies to those replies, etc. 
+
+Comments and submissions have very similar shapes and once again track the campaign cycle.
+There is a very small uptick in activity with the first debates, a peak in March 2016, the familiar primary season U, absolute peak in November (1,907,800 matched, 1,242,938 related comments; 417,106 matched, 83,326 related submissions), rebound in January, and a final return to primary season levels.
+In the immediate aftermath of the election, interest drops sharply, December 2016 bringing the greatest dip in matches month to month with -32.24\% fewer comments and -60.82\% fewer submissions.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2016/progressive_match}
+\caption{Matches and relatives (progressive subreddits)}
+\label{fig:progressive_match}
+\end{figure}
+
+Figure \ref{fig:match_count} displays matches and relatives for submissions and comments in every subreddit combined.
+However, it is likely that individual subreddits have different activity patterns.
+To give another view of the data, Figure \ref{fig:progressive_match} displays graphs of the combined matches and relatives for submissions and comments for each progressive subreddit.
+Using the same scale, it is more obvious that submissions are only a small percentage of activity, they are a prompt for discussion.
+The content are the comments, unlike many news or social media sites.
+The shape matches that of all comments and submissions in \ref{fig:progressive_count} until 2017 when they diverge more; the presidential election was the most dominant topic, a large fraction of political discussion throughout 2016.
+r/politics (1,896,280,350 comment, 32,311 submission matches and relatives) and r/WayOfTheBern (31,192, 2,188 matches and relatives) peak in November 2016, r/SandersForPresident (335,343, 11,790) and r/democrats (5,756, 1,321) in March, and r/hillaryclinton (91,397, 9,087) had the most activity in October prior to the election. 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2016/conservative_match}
+\caption{Matches and relatives (conservative subreddits)}
+\label{fig:conservative_match}
+\end{figure}
+
+Figure \ref{fig:conservative_match} displays graphs of the combined matches and relatives for submissions and comments for each conservative subreddit.
+Here too submissions are a small fraction of comments, and the shape is similar to that of all items in \ref{fig:conservative_count}.
+r/Conservative (40,640 comment, 2,909 submission matches and relatives) and r/Republican (9,551, 1,037 matches and relatives) peak in March 2016, the former shows more interest in the inauguration than the election.
+Unsurprisingly, r/The\_Donald peaks in November with 756,835 comment, 120,485 submission matches and relatives.
+In comparison, there are more submission matches that month than the entire 95,739 matches and relatives in r/Republican from 2015-2017.
+
+\begin{table}[!ht]
+\centering
+\caption{Subreddits}
+\include{2016/subreddits}
+\label{tab:subreddits}
+\end{table}
+
+Table \ref{tab:subreddits} displays the 30 subreddits with the most combined matches and relatives.
+There are 75,322,866 matches and relatives by 2,672,292 unique users across 70,783 subreddits (with 70 excluded).
+These 30 subreddits contain 73.8\% of all matches and relatives and these items are matched an average 24.45\% of the time, compared to the 0.78\% match rate average of all subreddits.
+Our selected political subreddits that are present have higher, though not the highest, match rates: r/politics (56.67\%), r/The\_Donald (28.06\%), r/SandersForPresident (38.84\%), r/hillaryclinton (48.04\%), r/Conservative (32.80\%), and r/WayOfTheBern (40.31\%).
+Several other subreddits (r/EnoughTrumpSpam), might be useful to add to the partisan groupings but there is much more data available than the previous chapter, and significant traffic comes after the election.
+r/politics and r/The\_Donald are more than 43.68\% of all matches and relatives, and we note the presence of r/conspiracy, the 8th most-active subreddit with its 18.84\% match rate. 
+Finally, r/politics has more than 3 times as many combined matches as r/The\_Donald, which has more than 4 times as many matches as r/SandersForPresident, which has more than 10 times as many matches as r/hillaryclinton.
+These Trump and Sanders subreddits have the large majority of their activity after 2015.
+
+\subsection{Classification}
+
+\begin{table}[!ht]
+\centering
+\caption{Cites (matched and related items)}
+\include{2016/doms}
+\label{tab:doms_2016}
+\end{table}
+
+We filter out 61 apparent bots (helper and otherwise) and 9 domains, as well as combine link shorteners and domain aliases.
+Table \ref{tab:doms_2016} displays the 30 most-cited domains within the matched and related items.
+There are in total 11,761,790 cites by 1,174,637 unique users; these 30 domains are 61.96\% of these cites.
+While reddit.com, youtube.com, imgur.com, wikipedia.org, and twitter.com are 44.72\% of cites, of the remaining sites only washingtonpost.com is over 2\%; this large set of domains is varied and widely-distributed.
+Reddit domains are the most-cited: 2,722,645 times by 630,963 users, wikileaks.org has the fewest users (12,312) out of the top 30 with 64,918 cites.
+It is one of four domains of 30 with more than 5 cites per user, the average of 3.32 and overall average of 1.97 cites per user suggest that bot activity is uncommon.
+Using selected domains described in the following, users are categorized as ``progressive'' or ``conservative'' based on whether they have cited those domains at least 25 times over the 3-year period.
+The splits of users sharing different domains is as expected: washingtonpost.com (40\% of cites by progressives, 19\% by conservatives), huffingtonpost.com (44.04, 18.67), breitbart.com (25.17, 52.35), foxnews.com (24.6, 35.29), npr.org (43.26, 13.57).
+Partisan averages are higher for the overall list than the top 30 because neutral users share these more common sites and niche domains dominate the tails.
+
+\begin{table}[!ht]
+\centering
+\caption{Cites (progressive subreddits)}
+\include{2016/doms_progressive}
+\label{tab:doms_progressive}
+\end{table}
+
+Table \ref{tab:doms_progressive} displays the 30 most-cited domains within the five selected progressive subreddits.
+There are 2,811,462 cites by 244,521 unique users; the top 30 domains are 57.14\% of all cites in these subreddits.
+These domains appear similar to the previous table of all domains:
+sharing-oriented domains (youtube.com) are the most common, the set of domains  is nearly the same, and the cites per user averages of 2.72 and 1.34 are representative and suggest natural user activity.
+The average of 38\% of progressive users posting these domains also captures the makeup of these subreddits. 
+
+\begin{table}[!ht]
+\centering
+\caption{Cites (conservative subreddits)}
+\include{2016/doms_conservative}
+\label{tab:doms_conservative}
+\end{table}
+
+Table \ref{tab:doms_conservative} displays the top 30 most-cited domains within the three selected conservative subreddits.
+There are 1,835,490 cites by 145,149 unique users; they comprise 75.7\% of all cites in these subreddits.
+Compared to the progressives, similar domains are present and dominate the very top, but also present are a number of much more partisan domains including infowars.com and dailycaller.com.
+These partisan domains have much higher percentages of citations by conservative users: magaimg.net (62.05\%) and washingtontimes.com (52.95\%) are representative, the average is only pulled down because of the presence of broader domains like twitter.com.
+The overall cites per user average are only 2.03, which does not suggest bot activity.
+votinginfoproject.org, shared by only two users, is the most obvious example of a general election resource common across Reddit, but note the presence of the more targeted stopthesteal.org, shared 4,837 times by 50 users.
+
+\begin{table}[!ht]
+\centering
+\caption{Selected progressive domains}
+\include{2016/doms_progressive1}
+\label{tab:doms_progressive1}
+\end{table}
+
+To get the final set of progressive users, 66 domains were selected from the progressive subreddits.
+Table \ref{tab:doms_progressive1} displays the 30 most-cited within matched and related items, ranked by their placement in Table \ref{tab:doms_progressive}.
+There are 367,244 cites by 66,584 unique users; the top 30 are 85.08\% of cites.
+This variety of progressive sources on average is cited by progressive users (those with at least 25 cites of these domains) 47.25\% of the time.
+
+\begin{table}[!ht]
+\centering
+\caption{Selected conservative domains}
+\include{2016/doms_conservative1}
+\label{tab:doms_conservative1}
+\end{table}
+
+To get the final set of conservative users, 61 domains were selected from the conservative subreddits.
+Table \ref{tab:doms_conservative1} displays the 30 most-cited within matched and related items, ranked by their placement in Table \ref{tab:doms_conservative}.
+There are 185,443 cites by 23,728 unique users; the top 30 are 91.26\% of cites.
+We note the presence of commonly-cited niche and partisan sources.
+infowars.com, owned by conspiracy entrepreneur Alex Jones, is the 14th most-cited domain in conservative subreddits.
+stopthesteal.org, while only cited by 50 users, is the 30th most-cited conservative domain.
+rt.com is ranked 55th; personality-driven outlets including Ben Shapiro at dailywire.com and Glenn Beck's theblaze.com are also present.
+These conservative sites are cited by conservative users 51.06\% of the time.
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\caption{Wiki articles (progressive subreddits)}
+\include{2016/doms_progressive_wiki}
+\label{tab:doms_progressive_wiki}
+\end{table}
+
+Finally, Table \ref{tab:doms_progressive_wiki} displays the 30 most-cited Wikipedia articles in the progressive subreddits.
+There are 109,772 citations by 42,932 users; the top 30 are only 8.04\% of cites.
+Generally, these articles are relevant to the 2016 campaign and most of are not strongly favored by progressive users.
+The exceptions seem to be rebuttals to partisan attacks, such as the Bush email controversy, with 46.14\% cites by progressives.
+The Foundations of Geopolitics is a supposedly influential work among Russian nationalists; while it may have limited relevance here, it became prominent in 2022 with Russia's invasion of Ukraine, to be covered next chapter.
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\caption{Wiki articles (conservative subreddits)}
+\include{2016/doms_conservative_wiki}
+\label{tab:doms_conservative_wiki}
+\end{table}
+
+In the conservative subreddits there are 14,859 citations of Wikipedia by 10,062 users; the top 30 make up 8.32\% of all cites
+There are relatively few cites overall, only 2 articles have more than 100, and multiple articles have fewer than 10 users.
+Within this limited sample size is a focus on conspiracies.
+Operation Mockingbird and Operation Northwoods were operations by intelligence agencies in the 1960s aimed at the public,
+Bohemian Grove has long been a hot topic in conspiracy circles.
+Bill Clinton is an issue in both progressive and conservative subreddits.
+There does seem to be an attempt to connect those around the Clintons with rumors of various forms of abuse, material associated with ``Pizzagate'' and an attack on Comet Ping Pong, a pizzeria, in Washington, D.C.
+
+\begin{table}[!ht]
+\centering
+\caption{User groups}
+\include{2016/summary}
+\label{tab:2016_groups}
+\end{table}
+
+Wikipedia articles are not used to categorize users.
+Table \ref{tab:2016_groups} displays basic stats about these groups: the number of users within, how many domains they post, and the quantity of matches and relatives for both submissions and comments.
+Of the 2,530,782 users in the matched data, 2,437 (0.1\%) are ``conservative'' with at least 25 cites of our selected conservative domains, 4,375 (0.17\%)  are ``progressive'' with at least 25 cites of the selected progressive domains.
+The totals include bots and subreddits are not excluded.
+Once again, the filtered users are a very small part of the dataset.
+
+Unlike the previous chapter, we use a higher single threshold of 25 cites because while these different sources have measurable ideologies, there is no simple government-owned or similar heuristic.
+Users categorized as ``rus'' posted certain domains, those that were neutral did not.
+With a much larger dataset, it is not uncommon for users to post both progressive and conservative domains; out of 5,928 users in the progressive and conservative groups, 884 have at least 25 cites of each.
+We attempt to get around this by not including newspapers of record like The New York Times and Washington Post in either domain set, but in partisan contexts users will often post sources they disagree with to mock them.
+Therefore, we create two more groups of users, ``progressive+'' and ``conservative+'', where users in each group have cited one set of domains at least 100 times more than the other.
+Using this measure, there are 527 progressive+ users and 260 conservative+ users.
+
+\subsection{Network Analysis}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2016/kshells}
+\caption{k-shells}
+\label{fig:kshells_2016}
+\end{figure}
+
+Figure \ref{fig:kshells_2016} displays the k-core distribution.
+The largest-connected component of the user network is composed of 980,390 users.
+In total numbers (not depicted), neutral users have an extreme skew to the right with 747,511 (77.28\%) users located in the first 10 shells (on the periphery).
+Compared to the previous chapter, the k-cores are much deeper, with 94 shells.
+Progressives and conservatives are more distributed in the higher shells; 209 (39.14\%) users with at least 100 progressive cites are found in shells above 90, 47 (17.54\%) users with at least 100 conservative cites are found in shells higher than 80.
+Progressive users dominate the higher shells; 1,911 of 2,308 (83\%) in the top k-shell (94) have at least 25 cites of progressive domains.
+This clustering of partisan users in the higher shells shows that these partisan sources draw the most engagement, the dominance of progressives hints at the underlying structure of Reddit where a few subreddits such as r/The\_Donald have a dedicated but insular base with fewer users to make connections.
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\caption{Most ties in top k-shell}
+\include{2016/topk}
+\label{tab:topk}
+\end{table}
+
+The 30 users with the most ties in the top k-shell, as displayed in Table \ref{tab:topk}, seem to confirm this.
+17 (56.67\%) users are classified as progressive+ with at least 100 more progressive cites than conservative cites.
+Only a single user has more conservative cites than progressive, and only two users prefer a subreddit other than r/politics, r/EnoughTrumpSpam is one of them.
+Unlike the rus users, there is not a strong emphasis on Wikipedia and the sources are varied and mainstream.
+Having a large number of cites is not a prerequisite for many ties with other users, but only two users have fewer than 150 cites in r/politics.
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\caption{Users by betweenness centrality}
+\include{2016/user_bet_cent}
+\label{tab:bet_cent}
+\end{table}
+
+What about users outside of the top k-shell?
+Table \ref{tab:bet_cent} displays the 30 users with the highest betweenness centrality in terms of z-score.
+Betweenness centrality is a measure of how often a user is on the shortest path connecting other users, z-scores are the number of standard deviations from the mean.
+Of 8 (25.57\%) users with 100 more progressive cites than conservative, 6 favor r/politics and the other two favor r/SandersForPresident and r/EnoughTrumpSpam (multiple users are found in the previous table).
+The biggest difference from the top k-shell are 5 (16.67\%) users with more conservative than progressive cites, 3 of which are categorized as conservative+ with 100 more conservative cites than progressive.
+These users favor r/The\_Donald and r/conservatives.
+We also note the inclusion of r/conspiracy and the varied group of sources.
+While the k-core decomposition is primarily a measurement of total connections, the mix of users with high betweenness centrality scores means these users are interacting with users that are in turn interacting with others.
+Progressive users populate the most active subreddits such as r/politics, but users of conservative subreddits do interact with users of other subreddits to a lesser extent.
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\caption{Users by total degree}
+\include{2016/user_tot_deg}
+\label{tab:tot_deg}
+\end{table}
+
+Finally, \ref{tab:tot_deg} displays the 30 users with the highest total degree, or combined incoming and outgoing connections.
+Out-degree dwarfs in-degree; the user with the most incoming connections (3,617) has 44,680 outgoing connections.
+21 (70\%) users are categorized as progressive+, 17 prefer r/politics, though r/hillaryclinton, r/democrats, and r/worldnews are also present.
+3 (10\%) users are conservative+, two of them prefer r/The\_Donald and one prefers r/politics.
+These are all very active users with large numbers of comments, replies, and cites.
+We note u/therecordcorrected, an allusion to a Clinton-favoring astroturfing campaign, Correct the Record.
+More interesting is the presence of u/maxwellhill with more than double the out-degree of the next user.
+When Jeffrey Epstein and his confidant Ghislaine Maxwell were arrested in 2019, the user, active as a moderator on numerous subreddits, became the target of a conspiracy theory which suggested they were Maxwell.
+Of course this user would have the power to influence activity on the site, but the sheer numbers suggest not a part-time user that dabbled in Reddit on the side, but rather someone that spent substantial time and effort, to an extent that does not match what we know of Maxwell's social and public life.
+
+\subsection{Textual Analysis}
+
+For the textual analysis we could take a similar approach as the previous chapter where we tracked the influence of superspreaders of Russian propaganda, comparing the most progressive users (progressive+) with the most conservative users (conservative+) and seeing how they appear to influence discussion.
+Given that chapter's findings, we might expect these users posting the most partisan material would attract discussion in any context, especially because they post so much of it.
+How much these users drive discussion is probably dependent on where the discussion is happening: progressive users posting in r/The\_Donald may draw attention the same way anyone who stands out will, but with the number of diehards they are posting against and the obvious orientation of that subreddit, their influence will be limited, and vice versa for conservative users posting in progressive environments.
+Subreddits like r/worldnews or r/news should provide the most opportunity for driving discussion, even given Reddit's apparent progressive tilt.
+
+However, the user groups in this chapter are different in several ways which present other more interesting paths of analysis.
+In the Russia example, users either were pro-Russia or neutral, posting favorable content or the absence of it, but not two groups with competing, explicit parties.
+The Russian context is also an international one with users very aware of and informed on the situation (even if with a slant) interacting with others with limited awareness or interest in Crimea or Ukraine.
+In the United States, the election of the president is much more important and salient for the average person and almost everyone will have some knowledge of and opinion on it.
+With partisanship at perceived highs, the us vs them nature of the first-past-the-post, two-party system, and the seeming ability of the tail to wag the dog (or strong partisans having outsized influence in the Internet age), it is useful to see how progressives and conservatives see each other.
+Do these groups oppose a reality, or are they shadow boxing with opponents they have constructed?
+
+The setup is straightforward.
+We take the progressive+ and conservative+ groups discussed previously and defined in Table \ref{tab:2016_groups} and train Word2vec models for each, capturing the topics discussed by these most partisan and active of users.
+For progressives, we query for the 300 most-similar terms for ``conservative'', and for conservatives, the 300 most-similar terms for ``progressive''.
+t-SNE is used for dimensionality-reduction to produce a 2D graph, and k-means to cluster closely-related terms.
+The reduction from 300 to 2 dimensions means that information is lost and we are only viewing a thin slice or perspective of the data and as such there is no optimal form of clustering.
+However, similar clusters persist across multiple runs and settings and the k-means provide reasonable divisions of topics.
+
+Before continuing, we note that similarity in the Word2vec context has multiple meanings.
+Terms can be those used in the same sentence or paragraph but with opposing meanings (Democrat and Republican), or with the intention of describing each other (Republican and Conservative).
+Fascist and communist may be grouped together but that does not necessarily mean that they are synonyms within the model.
+Word2vec is only a measure of physical proximity within the text, as are the k-means clusters derived from it.
+The graph of 300 talking points for a given term are the 300 words most commonly used in proximity to it, the clusters are the words within used most often with each other.
+Clusters are used to focus on topics, but they are not definite and they do not have any relationship across graphs other than being similar.
+Modern tools such as BERT are designed to capture context and meaning in a much more nuanced way, but these Word2vec models are a useful starting point.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2016/prog_plus_conservative}
+\caption{Most-similar to ``conservative'' (progressive+)}
+\label{fig:prog_plus_cons}
+\end{figure}
+
+Figure \ref{fig:prog_plus_cons} displays the 293 most-similar terms to ``conservative'' for the progressive+ users.
+Individuals are removed in order to avoid cross-cutting clustering across people and things, and several non-grammatical terms due to bad word splits have been filtered out as well.
+However, only four people are filtered: Rupert Murdoch, Rush Limbaugh, and the Koch brothers, which suggests the personalities seen as most responsible for the following, or perhaps the progressive+ group's representative conservative.
+
+In the top-left is the ``faction'' cluster containing political stances: \emph{agenda, authoritarian, capitalist, centrist, coalition, conservatism, embrace, establishment, extreme, faction, fascism, fringe, ideology, left(ist), liberal(ism), libertarian, mainstream, moderate, movement, neocon, neoliberal, populism, progressive, radical, socialism, tea, wing}.
+In the opposite bottom-right corner is the ``electorate'' cluster discussing voters: \emph{abandon, alienate, appeal, attract, base, bloc, democrat(s), demographic, dislike, diverse, divide, dominate, educate, electorate, far, folk, generally, heavily, historically, independent, largely, lean, millennial, minority, motivate, overwhelmingly, people, politician, primarily, represent, republican(s), rural, skew, split, tend, uneducated, urban, youth}.
+Both groupings with their variety of terms suggest comparison and do not have an obvious tilt. 
+
+The top-right corner has the ``heritage'' cluster with terms related to group identities: \emph{activist, atheist, catholic(s), christian(s), christianity, ethnic, evangelical, extremism, fundamentalist, group, heritage, islam, protestant, racial, religious}.
+Beneath it is a smaller ``bigotry'' cluster focused on targets and negative effects of tradition: \emph{anti, bigotry, extremist, fascist, feminist, hate, nationalism, neo, pander, racist, rhetoric, sjw, xenophobic}.
+We note the inclusion of ``fundamentalism'' and ``extremism''  as qualifiers.
+
+The remaining clusters are the largest with the least topic definition.
+Towards the center of the plot is the ``idea'' cluster emphasizing the abstract and intellectual: \emph{academic, align, attitude, authoritarianism, belief, bias, center, communism, consensus, consistent, core, cultural, deeply, disagree, diversity, doctrine, economically, economist, elite, evil, evolution, faith, feminism, fiscal, idea(l), ideological(ly), increasingly, intellectual, minded, moral, neoliberalism, norm, oppose, opposite, perceive, perspective, philosophy, pragmatic, principle, pure, regressive, root, social(ly), society, somewhat, spectrum, tendency, thinking, tradition(al), view(point)}.
+Many of these terms overlap with terms in other groups: communism, faith, and regressive could easily fit in the preceding three clusters.
+
+Finally, the ``critique'' cluster in the bottom-left of the graph contains many of the most negative associations, including: \emph{apathy, batshit, biased, brainwash, breitbart, bubble, censor(ship), corporatist, crazy, decry, demonize, despise, dissent, divisive, dixiecrat, echo, elitist, entrenched, ethno, gamergate, globalism, hardcore, intolerant, irrational, jerk, misinformed, nazism, nutty, partisan, propaganda, pseudo, rabid, radicalize, reactionary, rejection, skeptical, tank, toxic, ultra, wedge, wingnut}.
+We also note a number of terms related to mass media and partisan commentary: \emph{breitbart, cato, commentator, infowars, media, outlet, outrage, outspoken, pundit, radio, sinclair, viewer, voice}.
+
+Without reading more into the graph than the words used, the old struggle of traditional versus progressive values and belief systems is dominant.
+There are undeniably negative notions like irrationality, intolerance, and terms like rabid or nutty, but we cannot determine whether these terms only apply to conservatives or include other groups along the spectrum.
+The criticism is closely connected to ``extremism'', which cannot be defined but seems associated with talk radio and new media like Breitbart and InfoWars, especially considering the removed individuals' importance to that media ecosystem.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2016/cons_plus_progressive}
+\caption{Most-similar to ``progressive'' (conservative+)}
+\label{fig:cons_plus_prog}
+\end{figure}
+
+We now flip the group and term in order to examine users on the other end of the political spectrum.
+Figure \ref{fig:cons_plus_prog} displays the 297 most-similar terms to ``progressive'' for the conservative+ users.
+One term is removed due to being ungrammatical and only two individuals are filtered out: Bernie Sanders and Hitler.
+
+The clusters in this plot have no direct relationship with the previous, but there are similarities in grouping.
+One grouping shared with the progressive plot is a variety of political positions and ideologies.
+This ``belief'' cluster, located towards the bottom-left, includes the terms: \emph{belief, capitalism, class, communism, concept, conservatism, core, correctness, culture, democracy, demographic, diversity, divide, doctrine, economic, elite, embrace, equality, ethnic, extreme, fascism, form, generation, globalism, goal, idea, ideology, institution, liberalism, liberty, marxism, modern, moral, movement, nationalism, populist, principle, progressive, promote, revolution, self, slavery, socialism, society, thought, traditional, undermine, western}.
+
+There are multiple other similar clusters, a smaller ``politician'' cluster on the right side of the graph refers to Democrats and Republicans explicitly.
+Found within are the terms: \emph{agenda, democrat(s), democratic, establishment, gop, leadership, opposition, party, platform, politician, republican(s), tea}.
+At the top-left is a ``religious'' cluster including: \emph{activist, advocate, catholic, christian, conservative, disagree, extremist, lean, lgbt, libertarian, minority, moderate, oppose, radical, reject, religious, support, wing}. 
+``Bigotry'' and other potential negatives of identities are grouped on the left side with: \emph{bigotry, brainwash, campus, cuck, disavow, evil, feminist, hatred, idiot, ignorant, label, left(ist), liberal, openly, racial, racism, rhetoric, sjw, tactic, useful}.
+To the bottom-right is the ``globalization'' cluster of political extremes and terms adjacent to Israeli politics: \emph{communist, con, fascist, globalist, jewish, nazi, neo, neocon, zionist}.
+
+Finally, the ``root'' cluster in the center of the graph covers many topics and is the least well-defined, suggesting these terms are used in a variety of contexts.
+Some of the more negative or notable are: \emph{authoritarian, backward, bankster, bolshevism, bully, commie, conflate, confuse, crush, cuckservative, cult, degeneracy, denounce, despise, dislike, divisive, dominate, dumbass, echo, emasculate, eradicate, fanatic, haunt, hegemonic, hypocrisy, indoctrination, inequality, infest, insane, intolerance, lambaste, myth, nazism, obnoxious, oppress, pander, parasite, pc, persecute, plantation, purge, racket, regressive, resist, ridicule, rino, rotten, scum(bag), segregation, smug, struggle, stupidity, subvert, takeover, toxic, tribal, tyranny, unpopular, vs., weak, zionism}.
+Of course, we do not know the exact context these terms were used within and the entire cluster includes neutral and positive terms.
+We select these with an emphasis on ``othering'' language like degenerate, scum, parasite, and rotten, likely derived from Trump's populist rhetoric.
+
+Both groups, progressive and conservative use similar terms and have similar clustering of topics such as religion.
+There are only so many political issues to cover but this at least indicates shared interests if not views.
+Each group shows apparent concern over top-down elite negative influences.
+Progressives seem more worried about this from media; conservatives use more populist language of banksters, academia, globalists, and Zionists.
+
+Using these graphs of talking points we have some idea of how these groups see each other and the wider political environment.
+How do these views affect the interpretation of specific events?
+In order to analyze this, we observe the reaction to the Mueller investigation into Trump's ties with Russia and related issues discussed at the beginning of this chapter.
+For many conservatives, the ongoing investigation and the Steele dossier, alleged Russian kompromat from 2017, have become known as ``Russiagate''.
+The initial overstated claims of the dossier were effective at discrediting the later substantial findings of Mueller's report, which given the historical use of Soviet and Russian active measures may have been the point.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2016/prog_plus_mueller}
+\caption{Most-similar to ``Mueller'' (progressive+)}
+\label{fig:prog_plus_mueller}
+\end{figure}
+
+Russiagate is used so infrequently by progressives that it does not show up in the vocabulary of the trained progressive+ model.
+Figure \ref{fig:prog_plus_mueller} displays the 227 most-similar terms to Mueller for the progressive+ group.
+The much larger number of individuals removed is due to the many whistleblowers, news sources, and political actors involved.
+We do not remove Mueller or Steele, session (Jeff Sessions, Trump's Attorney General), jr (Donald Trump, Jr.), or mooch (Anthony Scaramucci); the final three are ambiguous.
+
+Smaller peripheral clusters include the ``Russia'' cluster at the bottom-left: \emph{kremlin, russia(ns)}, the Trump ``team'' cluster to the right: \emph{administration, advise(r), ag, aide, attorney, client, counsel, department, ethic, inspector, jr, lawyer, mueller, reportedly, resign, session, staff, team, transition}, and the ``intel'' cluster found towards the top-left and bottom-right: \emph{cia, communication, fbi, intel, nsa}.
+
+The ``prosecution'' and ``Steele'' clusters on the left are similar with terms like prosecutor, prosecution, investigation but the former explicitly mentions the dossier and contains terms central to the end Mueller findings regarding coordination or collusion.
+The first includes: \emph{case, charge, conviction, criminal, defendant, doj, fec, guilty, immunity, impeach(ment), indict(ment), irs, jury, laundering, legal, obstruct(ion), pardon, perjury, plaintiff, plea, proceeding, prosecute, prosecution, prosecutor, racketeering, treason, trial, witness}.
+The Steele cluster contains: \emph{agent, benghazi, breach, collusion, confirm, connection, cooperate, coordination, dirt, dossier, evidence, fisa, foia, hearing, info(rmation), inquiry, investigate, investigation, investigative, investigator, leak, memo, ongoing, probe, revelation, scrutiny, staffer, steele, subpoena, suspect, suspicious, testify, testimony, uncover, warrant, wiretap, wrongdoing}.
+
+Finally, the center cluster details much of the ``controversy'': \emph{actionable, alleged, bombshell, bondi, boss, bureau, compel, conclude, confirmation, controversy, cooperation, counterintelligence, covertly, criminally, da, damning, delay, dhs, discovery, dismissal, distraction, dni, examine, exonerate, f.b.i, fed, firing, frivolous, fsb, fury, fusion, gchq, gps, gsa, handling, heat, heel, hope, ic(c), ig, impanel, implicate, improper(ly), incriminate, informant, kickback, kompromat, leaker, legality, marshal, mi6, mishandle, mooch, natsec, ns(c), oig, omb, pentagon, perjure, pertinent, pi, possibility, potentially, preliminary, probable, pursue, quash, quietly, raid, rationale, recommendation, recusal, reichstag, resignation, rogue, scope, scrutinize, seal, sever, special, speculate, termination, timeline, timing, unseal, vindicate, watergate, wh, whitewater, wiretapping}.
+This cluster and the graph as a whole do not appear especially biased or colored.
+Without prior knowledge of the events, these terms are obviously discussing a serious ongoing political investigation.
+The desire for findings of treason or impeachment could perhaps be read into it, but with terms like exonerate and frivolous, it is not clear this is expected.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2016/cons_plus_russiagate}
+\caption{Most-similar to ``Russiagate'' (conservative+)}
+\label{fig:cons_plus_russiagate}
+\end{figure}
+
+Figure \ref{fig:cons_plus_russiagate} displays the 283 most-common terms to Russiagate for the conservative+ group with 9 individuals removed.
+We begin with a familiar ``Russia'' cluster, found on the left side: \emph{collude, dnc, dossier, fusion, gps, hacking, kremlin, operative, russia(n)}.
+This includes the hacking of the DNC in 2016, which is not emphasized in the progressive talking points; the entire conservative plot mentions Fusion GPS, the firm behind the Steele dossier, multiple times.
+
+On the periphery are multiple clusters about the investigation, the progressive plot has a similar split.
+In the bottom-left corner, the ``Mueller'' cluster is the most straightforward and factual: \emph{allegation, collusion, connection, evidence, fbi, indictment, investigate, investigation, investigator, mueller, probe, prosecution, scandal, testimony}.
+Collusion and connection are part of the specific legal verbiage used in the 2018 report.
+The ``coup'' cluster (top-left, edges of plot) has related terms like conspire, corrupt, and perjury, but the presence of coup and witch (hunt) flips the investigation onto the accusers: \emph{actively, admit, attempt, conspire, corrupt(ion), coup, cover,  deep, expose, hunt, massive, obstruction, perjury, pursue, sabotage, treason, witch}.
+Claims of bias are reiterated in the ``narrative'' cluster to the right, skeptical of the narrative and media more generally: \emph{accusation, bias(ed), credibility, debunk, discredit, dishonest, fake, false, hoax, journalism, liar, msm, narrative, obvious, partisan, prove, repeat, ridiculous, smear, spin, theory}.
+
+Finally, the  ``dirt'' (center-left) and ``disinformation'' (center) clusters contain a variety of relevant details along with unrelated conspiracies (Pizzagate), extreme claims (Orwellian, deepstate, McCarthyism), and dubiousness (nothingburger).
+Some of the first cluster terms are: \emph{blackmail, bombshell, bribery, careless, conclude, coordination, covert, coverup, critical, crowdstrike, dirt, examine, extensive, finding, forensic, gross, handling, ic, implicate, indicate, informant, inquiry, insider, interference, internal, investigative, involvement, negligence, noaa, numerous, ongoing, oppo, pattern, pizzagate, recuse, research, revelation, spying, steele, suppress, suspicious, theft, uncover, whatsoever, whistleblower, widely, wiretap(pe), wiretapping, wl, wmd, wrongdoing, zero}.
+The second and largest cluster includes: \emph{absence, absurd, aggressively, assess, b.s, backfire, baseless, bellingcrap, blatant, bogus, botnet, bury, cheater, circumstantial, coincidence, cointelpro, compliant, complicit, controversy, cooperate, counterintelligence, craft, creation, credible, crumb(le), damning, deepstate, deflect, deliberate(ly), denial, derail, desperate, dig, discredited, dishonesty, disinfo(rmation), disruption, distract(ion), disturbing, downplay, elaborate, endlessly, exoneration, extortion, fabrication, failbama, fakenews, flawed, fusiongps, hearsay, heroic, hysteria, implode, impropriety, incidental, infamous, intentionally, internally, intrigue, lawfully, malfeasance, malicious, manufacture, mccarthyism, meddling, messaging, mi6, mislead(ing), mole, motivation, mount, newsweek, norko, nothingburger, ohr, orwellian, outrage, outright, paedophile, peddle, pedogate, phony, plausible, politicize(d), pretense, prosecutable, psychological, psyop, ransomeware, reprisal, researcher, retract, roil, rumor, russiagate, scrutiny, sedition, setup, sham, shocking, slowfoot, spark, speculation, squash, stunning, surface, syndicate, systemic, tamper, treasonous, truthful, unaware, unbiased, undercover, unleash, unmasking, unprecedented, unproven, unpunished, unrelated, unsubstantiated, unverified, uraniumone, vault7, verifiable, vindicate, widespread}.
+Unless the reader believes there was some form of deep state coup against the Trump administration, the findings of the Mueller report are far removed from this narrative.
+
+The difference between this graph and the progressive+ Mueller is partially due to searching for word-similarity using Russiagate instead of Mueller; the latter does produce more similar but still skeptical results.
+However, the associations Russiagate produces show the effectiveness of framing an issue by labeling it.
+The label provides a target, an acknowledgement of the issue, but it makes the actual issue another step removed and the label becomes a blank canvas to fill, compared to the large numbers of specific individuals found and removed in the progressive+ plot.
+Similarly, the conflation of the Steele dossier with the Mueller report shows the effectiveness of Russian active measures at poisoning the well before the most important evidence related to Trump's possible connections was available.
+
+When taken as a whole, these different talking point graphs are generally relevant.
+Even in the Russiagate graph, which shows much of the most-biased language (perhaps influenced by the loaded term), outlines and details are obvious.
+We note the juxtaposition of terms, fascist and communist, atheist and religious.
+This could be ``whataboutism'' oft-cited in the wiki links but it is also natural,
+defining something by what it is not is effective.
+Moreover, designators like political parties are often seen as simple heuristics that drive choice and voting patterns; these terms are used because they are easy to grasp.
+It could be that mass political discussion, which the Internet offers in a unique, novel fashion, is drawn to these poles.
+
+The emphasis on top-down negative media influences in the progressive+ ``conservative'' and conservative+ ``Russigate'' graphs is another aspect of this.
+Talk radio and cable TV changed politics.
+The relationship between Tip O'Neill, Democratic Speaker of the House, and Reagan and Republicans is sometimes referred to as an example of a different political climate when the parties could compromise on issues.
+The natural way for new media and alternative outlets to position themselvesRussiagate was by attacking the existing mainstream media, by presenting themselves as willing to say or be what others would not, a strategy that never stopped.
+Politics had already entered the soundbyte era where every issue had been reduced to 30-second clips, but in the Facebook and Twitter era that is further distilled.
+Talk radio and cable TV have been supplanted and replaced by podcasts and YouTube pundits, and parties have become more associated with media that always needs to present an ``other'', beginning at least with the Gingrich Congress.
+
+These Word2vec graphs capture that polarization and at least some awareness that the polarization is due to media.
+Each group talks about brainwashing, or suggest the other side is wrong, but the upside is that this wrongness is not seen as inherent but rather an influence.
+Unfortunately, the ability of new media to cast themselves as purveyors of unsaid truths has led to the very strong conspiracy tilt found in the Russiagate graph, to be discussed further next chapter.
+
+\section{Discussion}
+
+In this chapter we began by looking at the 2019 Mueller Report.
+The report details how starting in 2014, Yuri Prigozhin and the Putin regime began a campaign of information warfare on US social media sites.
+These active measures involved Russian specialists representing themselves as patriotic citizens who were then followed, retweeted, and managed to organize physical in-person rallies during the 2016 electoral season.
+Combined with the hacking of the DNC and the cooperation of WikiLeaks, the report concludes that the 2016 presidential election saw ``sweeping and systematic'' interference.
+Trump was not directly implicated in any coordination or collusion, but multiple members of his team including Paul Manafort, Michael Flynn, and Roger Stone were convicted of obstruction, fraud, or other offenses.
+
+Next, we stepped back in history to analyze how the United States and Russia developed along different political lines despite having a familiar origin.
+Russia, Belarus, and Ukraine eventually divided into their representative nations after a foundation by Scandinavian Varangians and Slavs.
+These countries took cultural and religious influences from the Byzantine (Eastern Roman) Empire and church, with Russia eventually becoming the defacto protector of peoples from the Baltic to Balkans and ``Third Rome''
+Perhaps due to a peripheral position in Europe and repeated devestation by the Mongols, Tatars, and other Eastern European powers, Russia conquered an empire from the Caucasus to the Pacific.
+Domestically Russia remained a top-down society with power concentrated in the tsar and those around him, because of this, industrial and social progress moved at a slower pace than Western Europe: the serfs were not freed until 1861.
+
+The United States, in contrast, took its cultural and political leanings from Western Europe.
+It also benefitted from a designed Constitution and hindsight.
+We covered the Federalist Papers, written by Hamilton, Madison, and Jay, which show a deep, obsessive concern with human motivation and behavior and with harnessing those potential issues to the benefit of the country.
+Factions, with their ability to become blindly self-interested, are a focus of the Papers, primarily limited at the time by communication technology which made mass mobilization of opinion difficult.
+
+Of couse, communication technology is always changing.
+It took more than a millenia to create modern paper via a winding path of cultures across Eurasia.
+Born on the cusp of the Industrial Revolution, the United States, while building its own intercontinental empire saw the effect of trains, daily newspapers, telegraphy and telephones, radio and TV, and finally today's Internet in a little over 200 years.
+The combination of democratic practices with these technologies rapidly driving down the cost of communication while expanding its reach has especially changed political behavior.
+
+Twitter's centrality to Trump's messaging is but one example of this.
+In order to capture these dynamics during the 2016 presidential campaign, we analyze 2,715,684,936 items by 26,777,565 users across 806,736 subreddits on Reddit from January 2015 to December 2017.
+We identify sets of popular progressive subreddits (r/politics, r/SandersForPresident, r/hillaryclinton, r/WayOfTheBern, r/democrat), and conservative subreddits (r/The Donald, r/Conservative, r/Republican).
+Relevant topics are identified by matching submissions and comments with a variety of political terms related to the election and candidates.
+
+Reddit as a whole follows familiar general patterns including increases in activity month by month and dips in the summer and winter.
+While r/politics and r/The\_Donald have the most activity out of the political subreddits by far, these 8 subreddits have expected patterns across all items as well as for matches and their related items.
+There is a minimal uptick in activity for the first primary debates, but this increases leading up the the conventions with a conspicuous ``U'' of posting during the primary season common.
+We observe reduced activity for the losing candidates: the Sanders subreddits and general Republican subreddits see sharp declines in posting after the nominations of Clinton and Trump, while the Clinton subreddit sharply declines after Trump's victory.
+r/politics and r/The\_Donald see peaks of activity in November 2016 and the inauguration in January 2017 shows interest across the political subreddits.
+
+Users are categorized as progressive or conservative based on whether they post links to domains found in the groups of subreddits.
+We select representative domains from each; users that post at least 25 cites from this progressive list are considered progressive and users that post at least 25 domains from the filtered conservative list are considered conservative.
+Both the progressive and conservative subreddits are top heavy and post most often from a restricted set of popular domains: Reddit, YouTube, Twitter, and Wikipedia; they also both post links from popular news sources like The New York Times and Fox News, along with a variety of more partisan media.
+Where the progressive and conservative subreddits (and filtered lists) differ the most is in the inclusion of high numbers of cites to relatively new and conspiratorial sources.
+For example, InfoWars is the 14th most-cited domain by conservatives.
+The 30th most-cited domain is Stop the Steal, a political campaign which only really picked up momentum in 2020 when Trump lost the election.
+
+We also track Wikipedia articles across the groups.
+Some topics are common (Bill Clinton) and both groups focus on a variety of issues that are only adjacent to the campaign.
+Notably, conservative users use Wikipedia as a resource less often than the Russian users in Chapter 2 or progressive users.
+Over the 3-year period, there are only 14,859 wiki articles in the conservative subreddits compared to 109,772 in the progressive.
+This smaller set of conservative cites contain subjects more familiar to conspiracy theorists such as the Bohemian Grove and Operation Mockingbird.
+
+Of the more than 2.5 million users in the matched data, only 4,375 progressive and 2,437 conservative meet the 25 cite threshold.
+These users are further filtered into progressive+ and conservative+ containing users that post at least 100 more of one group compared to the other.
+Despite these small numbers, when we run a k-core analysis, we find progressive and conservative users throughout the top levels and they have the most interactions with other users.
+Progressive users dominate especially; in the top (94th) shell, 85\% of 2,308 users are categorized as such.
+
+When we further analyze users by measures of betweenness centrality and out-degree and in-degree, users that favor conservative subreddits like r/The\_Donald are present, but most high-ranking users show a progressive tilt in cites and subreddits.
+This is likely due to Reddit as a whole being younger and more progressive, but the dedicated users of r/The\_Donald show indicators that they interact with the wider community and are not entirely insular.
+Incidentally, the user with double the number of connections with other users over anyone else, u/maxwellhill, has since become part of a conspiracy theory tying them to Jeffrey Epstein and by extension some of the most lurid claims of the election.
+
+Finally, in order to study the content of discussion of the most partisan users, separate Word2vec models are trained for the progressive+ and conservative+ groups.
+These models are then compared by mapping the 300 most-similar terms for ``conservative'' and ``Mueller'' for the progressive+ users and for ``progressive'' and ``Russiagate'' for the conservative+ users.
+The progressive+ users use a higher percentage of apparently negative terms when describing conservatives as do the conservative+ users when discussing progressives.
+Both groups use a variety of competing terms, like Marxism and fascism, probably while comparing ideologies.
+The limitations of Word2vec make it difficult to disentangle whether progressive users might, as expected, speak more favorably of Marxism, or whether terms are being misapplied or used in an exaggerated manner.
+
+Russiagate is a conservative descriptor and as such the associated terms may be more biased, but as a whole, both the progressive+ and conservative+ users cover much of the controversy including the Steele dossier and Mueller Report, and like prior plots include similar clusters of topics.
+The biggest difference is found in the hyper skeptical language of the conservative+ group, describing the series of events as a ``coup''.
+This skepticism is in part expressed in terms of a media ``narrative''; the progressive+ users show similar contempt for conservative media, mentioning outlets like Breitbart, InfoWars, and Sinclair.
+
+The process of identifying relevant information in this dataset and summarizing it accurately is subject to the same forces that drive what content is posted and how it is discussed.
+It is easy to take a plot of 300 terms and to come to wildly different conclusions due to ignorance or knowledge of relevant subject matter, or to bias the description of past events based on what is known today.
+We note that despite sharing many of the same topics and words (already distilled to the 300 most-common), it takes a very small number of divergent terms to shift the perspective and focus of discussion.
+Trump's 2016 campaign thrived on reframing the discussion or diverting it entirely.
+
+In normative terms, this offers some hope for productive political behavior.
+Despite being divided into polarized camps, these camps are still discussing the same things, they have similar concerns, and they show an awareness of the positions of the other side, though they might be caricatured.
+The difference is only in degrees, especially compared to the Western and Russian divide with centuries behind it, and as the Mueller Report details, these domestic differences are exacerbated by outside forces.
+
+Despite the exaggerated language, it is not obvious that either group is poorly informed, these hyperpartisans are possibly more informed than the average voter on a variety of issues.
+Where this interest becomes most problematic is where it becomes obsessive, focusing on small inaccurate or irrelevant details, first derailing discussion, then becoming the assumed underlying cause of events.
+Conspiracy theories are found in this dataset primarily in the links and words used by conservatives, an emphasis of Trump throughout his campaigns.
+The next chapter discusses conspiracy theories in more detail and brings this research full circle by studying the Russian invasion of Ukraine in 2022.
+
+\chapter{panprop: Putin's War (2022)}
+\epigraph{Something has changed — as globalization has marched on, [political] debate is taking place in a completely new media environment. Opinions aren't formed the way they were 25 years ago...Today we have fake sites, bots, trolls - things that regenerate themselves, reinforcing opinions with certain algorithms and we have to learn to deal with them.}{Angela Merkel}
+\input{conspiracy}
+
+\section{Results}
+
+\subsection{Dataset}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2022/count}
+\caption{Comments and submissions}
+\label{fig:count_2022}
+\end{figure}
+
+Figure \ref{fig:count_2022} displays comments and submissions by month.
+The base dataset contains 1,590,619,\\748 items or 1,393,772,122 comments and 196,847,626 submissions by 31,323,324 unique users across 2,585,009 subreddits from January 2022 through June 2022.
+The winter dip in activity is apparent as in previous chapters, however, unlike those chapters in which both comments and submissions remained level from March through June, there is a decrease in comments, this could be an outlier or Reddit reaching a ceiling.
+We do not have a full three years of data to observe trends, we use the shorter six month scale to reduce processing time as the comments from January 2022 alone are over 333 GB uncompressed.
+December 2017, the last month of data in Chapter 3, consists of 85,973,810 comments and 10,557,874 submissions compared to 256,766,675 comments and 32,091,070 submissions in January 2022, increases of 198.66\% and 203.95\%.
+Similarly, from 2015 to 2017, there were just over 18.23 million unique users and 460,000 subreddits, Reddit saw continued massive growth through 2022.
+Comments and submissions are again directly correlated, the ratio of submissions to comments is never lower than 12.5\% or higher than 15.72\%.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{2022/match}
+\caption{Matches and relatives}
+\label{fig:matches_2022}
+\end{figure}
+
+Figure \ref{fig:matches_2022} displays matches and relatives by month.
+Our selected six months of data are sufficient to capture the lead-up to the invasion of Ukraine which began on February 24 and the first few months of the conflict.
+We want to reuse as much of Chapter 2 and 3 as possible, as such we use a slightly modified list of keywords from the Crimea data to filter out irrelevant items.
+The item is considered a ``match'' (case-insensitive) if ``Euromaidan'', ``Donbas(s)'', ``Crimea'', ``Crimean(s)'', ``Putin'', ``Russia'', ``Russian(s)'', ``Ukraine'', ``Ukrainian(s)'', ``Zelensky(y)'', or ``Zelenskiy'' are found.
+Once again, to reduce processing time, we only match against submissions and extract comments connected to them as relatives (there are no comment matches nor submission relatives).
+On January 1, there are 1,334 submission matches and 8,065 comment relatives.
+The peak is the day of the invasion with 47,365 submission matches and 1,263,243 comment relatives, activity then declines to 5,883 submissions and 80,249 comments on June 30.
+In total there are 1,718,281 submission matches and 32,629,695 comment relatives across the six months.
+
+\begin{table}[!ht]
+\centering
+\caption{Subreddits}
+\input{2022/subreddits}
+\label{tab:subreddits_2022}
+\end{table}
+
+Table \ref{tab:subreddits_2022} displays the 30 subreddits with the most combined matches and relatives.
+There are 32,713,731 matches and relatives by 2,565,090 unique users across 2,584,797 subreddits.
+We exclude 212 subreddits, again mostly related to games, sports, language learning, or illicit material.
+In comparison, there are around 1.56 million matches and relatives, 194,000 unique users, and 460,000 subreddits from 2013-2015 for Chapter 2 and 75.32 million items, 2.67 million users, and 70,000 subreddits from 2015-2017 for Chapter 3.
+These 30 subreddits contain 69.32\% of all matches and relatives and these items are matched an average 32.64\% of the time, compared to the 0.49\% match rate average of all subreddits.
+The top 5 subreddits include 47.95\% of all matches and relatives, have at least 1 million combined matches, more than 100,000 users, and match rates above 65\%.
+The invasion is a popular topic across Reddit, but again, the top-heavy clustering of activity means that only  a limited number of subreddits would need to be targeted to reach a mass audience.
+12 subreddits have a match rate above 25\%, 10 above 50\%, the subject dominating discussion there.
+We note the 11th ranked subreddit r/conspiracy, found in the top 30 subreddits in every chapter.
+
+\begin{table}[!ht]
+\centering
+\caption{Cites (matched and related items)}
+\include{2022/doms}
+\label{tab:doms_2022}
+\end{table}
+
+\subsection{Classification}
+
+To get a complete list of domains, we filter out 17 apparent bots, 9 domains, and combine link shorteners and domain aliases.
+Table \ref{tab:doms_2022} displays the 30 most-cited domains within the matched and related items.
+There are in total 3,853,869 cites by 494,105 unique users, these 30 domains are 69.02\% of these cites.
+Yet again the same domains populate the top spots: reddit.com, youtube.com, imgur.com, wikipedia.org, and twitter.com are 57\% of cites (up from 44.72\% in the 2016 election), of the remaining sites only reuters.com, bbc.com, and theguardian.com are at least 1\%, this large set of domains is varied, widely-distributed, and mainstream.
+
+Reddit domains are the most-cited: 1,303,651 times by 253,542 users, newsreadonline.com has the fewest users (44) out of the top 30 with 25,520 cites.
+This supposedly Ukrainian source has a very inflated (580) cite per user ratio, suggesting bot activity.
+It is the outlier in a list in which only twitter.com (7.4), www.gov.pl (10.07), medium.com (10.15), and webster.com (22.42) have cite to user ratios above 7.
+Otherwise, this mix of domestic US, British, and Middle Eastern outlets represents a broad, organic view of the war, though we note the absence of Russian sources.
+
+We reuse the domain lists established in the previous chapters to categorize users as Russian ($>$ 9 cites) and progressive and conservative users ($>$ 24 cites), which can overlap.
+Notably, the Russian group is very small, with only archive.org over 10\% and 1.46\% of users overall in the top 30 domains.
+Conservative users favor foxnews.com (64.03\% of cites), but Reddit's progressive tilt is apparent with 5 domains with greater than 20\% progressive users and 17 with more than 10\%.
+None of the top 5 domains show group percentages higher than 5\%, and a number of domains, for example, t.me (Telegram) have low maximums (1.09\% progressive).
+These user groups do not dominate as they did in previous chapters.
+
+\begin{table}[!ht]
+\centering
+\caption{Wiki articles}
+\input{2022/doms_wiki}
+\label{tab:wiki_2022}
+\end{table}
+
+Table \ref{tab:wiki_2022} displays the 30 most-cited Wikipedia articles, we do not include group percentages because none of the groups cite more than 2\% of these top articles.
+There are 195,166 citations by 61,887 users, the top 30 are only 9.19\% of cites.
+None of the articles has a cite per user ratio of higher than 3.54, indicating organic activity.
+However, whataboutism and multiple articles from previous chapters return.
+The Azov Battalion, Budapest, Holodomor, Stepan Bandera, annexation of Crimea, Russo-Georgian War, and nuclear weapons are among the 30 most-cited articles in Chapter 2 concerning Crimea.
+The Revolution of Dignity in 2004 is a precursor to the revolution of 2014, the Katyn massacre echoes the massacre of Poles in Volhynia, both cited in Chapter 2, and while Flight 17 was not cited, it was a major topic.
+Regime change by the United States is cited here, while in Chapter 2 covert regime change was highlighted, reflecting the secret and then overt actions of Russia in 2014 and 2022.
+
+New articles include the Russian apartment bombings of 1999.
+Over a span of 3 weeks, 5 bombings in Moscow and other cities killed more than 300 people, another three were prevented, local police arresting FSB agents for planting one set of explosives.
+The attacks were blamed on Chechen extremists, Putin, prime minster at the time, was elected president and led the Second Chechen War that same year.
+One conspiracy theory, with various individuals and organizations claiming evidence, suggests that Putin intentionally engineered these attacks to stay in and increase his power.
+Alexander Litvinenko, former FSB agent, made this claim and was infamously assassinated by radioactive polonium in 2006.
+The hardline Kadyrov family came into power as a result of the war in Chechnya, and the popularity of false flag claims in recent years may be a projection of these tactics.
+
+The Wagner Group is a private paramilitary organization owned by ``Putin's chef'', Yevgeny Prigozhin.
+Prigozhin was in Soviet prisons in the 1980s and began a catering and restaurant business in the 1990s during which time he came into Putin's orbit.
+He founded the Internet Research Agency, featured in previous chapters and mentioned in the Mueller Report, a position that he admitted in February 2023, perhaps as part of a growing divide with the Kremlin.
+
+Wagner has been involved in conflicts in Syria and Iraq, mercenaries coming into direct combat with US forces in 2018 in the Battle of Khasham, as well as Donbas and Africa.
+The group is reportedly named after Hitler's favorite composer and run by Dmitry Utkin, a veteran of the wars in Chechnya with Nazi tattoos.
+During the invasion of Ukraine, Wagner has been relied on heavily to limit conscription and public outrage, and began recruiting from Russian prisons.
+
+Military culture is part of Russia's failure in the war, dedovshchina is the brutal hazing experienced by new recruits.
+Putin has given multiple reasons for the invasion, including claims that Zelensky (Jewish) and his regime are nazis intent on destroying Russian culture (see Azov Battalion), but the primary motivating factor is probably NATO expansion into Eastern Europe.
+Western involvement during the Balkan genocides of the late 1990s, particularly action against Serbia, Russia's old protectorate, is a point of contention.
+Similarly, while the Bush administration and Putin courted each other before the invasion of Iraq in 2003, this conflict, a reminder of the Great Game between the British and Russian empires in the 19th century, in part motivated the Russian invasion of Georgia in 2008 and discussion of NATO membership for Ukraine, an apparent red line for Putin.
+
+Finally, \emph{The Foundation of Geopolitics} was highly-cited by progressives in Chapter 3, during and following the 2016 presidential election.
+The 1997 book, authored by ultranationalist Aleksandr Dugin, argues for a doctrine of Eurasianism which includes Russian annexation of Ukraine, expansion into Europe and the Middle East, and the forming of relationships with traditional enemies of the United States including Iran.
+The book supposedly has had some influence within the Russian military and is at times described by westerners as a roadmap and guide to actions including Putin's invasion of Ukraine.
+This in itself is a kind of conspiracy theory, Dugin's occult, neofascist influences are an attractive target, but many of his prescriptions are actions any leader seeking to restore Russia to Soviet or imperial power would naturally take.
+Reddit's discussion of it at times sounds like that surrounding the likely fake Tanaka war memo preceding World War II, discussed in the introduction.
+It is difficult to say to what extent it has influenced the thinking of Russian leadership.
+Nevertheless, in August 2022, his daughter Darya Dugina, also a nationalist, was killed in a car bombing outside of Moscow.
+Whether this was the work of Russians against the war, Ukrainian special forces, out lash by the regime for a lagging conflict, or a false flag intended to stir Russian nationalism is unclear. 
+
+\begin{table}[h!]
+\centering
+\caption{User groups}
+\include{2022/group_stats}
+\label{tab:groups_2022}
+\end{table}
+
+Table \ref{tab:groups_2022} displays basic stats about the groups: the number of users within, how many domains they post, and the quantity of submission matches and comment relatives.
+Compared to Chapter 2, there are 271 fewer users that post at least 10 rus domains and compared to Chapter 3, there are 2,399 fewer conservative and 4,234 fewer progressive users with at least 25 cites.
+This results in a corresponding drop in posted material: there are 39.72\% rus, 5.60\% conservative, and 8.95\% progressive domains posted by each group compared to the previous chapters.
+Rus users post 28.47\%, conservative users 1.1\%, and progressive users 1.55\% of comment relatives, and conservative users 12.42\% and progressive users 11.83\% of submission matches.
+Curiously, rus users post 117.66\% of submission matches despite their smaller population numbers, suggesting bots.
+What explains this reduced activity?
+Reddit is likely monitoring and restricting artificial user behavior better than previously, especially with the revelations of the Mueller Report, and user activity itself has probably adapted.
+We discuss this further in the chapter conclusion.
+
+\subsection{Network Analysis}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2022/kshells}
+\caption{K-shells}
+\label{fig:kshells_2022}
+\end{figure}
+
+Figure \ref{fig:kshells_2022} displays the k-core distribution.
+The largest-connected component of the user network is composed of 850,529 users.
+Neutral users have an extreme skew to the right with 805,437 (94.72\%) users located in the first 10 shells (on the periphery).
+There are 46 shells compared to 31 in Chapter 2 and 94 in Chapter 3, which makes sense as k-cores are by number of connections, the more users, the more connections and shells.
+Previously, we displayed this distribution by the percent of users from each group.
+This is unnecessary here, while we still show user groups, none of the rus, conservative, or progressive groups have more than 6 users per shell.
+Similarly, they do not cluster in the highest shells as seen earlier, they do not dominate discussion.
+
+\begin{table}[!ht]
+\footnotesize
+\centering
+\caption{Most ties in top k-shell}
+\input{2022/topk}
+\label{tab:topk_2022}
+\end{table}
+
+Table \ref{tab:topk_2022} displays stats about the 30 users with the most ties (responses) to other users in the top k-shell.
+Rus cites are not displayed, none of these users have more than 2.
+Two users are classified as progressive with at least 25 cites (u/TintedApostle and u/dockneel), all of the latter's progressive cites (86) are from theatlantic.com.
+No users are classified as conservative, u/rishcast has the most (10), but has more progressive cites.
+Only a single user does not post links most often in r/worldnews: 4 have more than 1,000 cites, 9 have more than 500, and 20 have more than 100 there.
+14 users cite Twitter most often, 2 more than 1,000 times, 9 more than 100 times.
+9 users cite Wikipedia most often, 3 Reddit, and 1 Ukraine's Pravda, the latter worth nothing because the country was part of the same propaganda system as Russia in the USSR.
+That these prolific posters have the most ties is not surprising, but these numbers emphasize how much social media drives coverage and awareness of events.
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\caption{Users by betweenness centrality}
+\include{2022/bet_cent}
+\label{tab:bet_cent_2022}
+\end{table}
+
+Table \ref{tab:bet_cent_2022} displays the 30 users with the highest betweenness centrality in terms of z-score.
+Betweenness centrality is a measure of how often a user is on the shortest path connecting other users, z-scores are the number of standard deviations from the mean, u/UkraineWithoutTheBot has a betweenness centrality 319.87 standard deviations from the mean.
+These users are interacting with users that in turn are interacting with many others, their high in and out-degrees similarly show them responding and being responded to more than the average user.
+None of the users is classified as rus with at least 10 cites, u/3BM15 has the most with 7.
+There are two users classified as progressive (u/Prunestand and u/DMBFFF), the former also has the most conservative cites (12) and no users are classified as conservative.
+There is a wider mix of domains, though Reddit (9), Wikipedia (7), Twitter (6), and YouTube (6) are still preferred by many users.
+Subreddits too are more diverse with r/worldnews (10), r/UkrainianConflict (5), r/ukraine (4), and r/UkraineWarVideoReport (3) popular and r/conspiracy making another appearance.
+
+\begin{table}[!ht]
+\centering
+\scriptsize
+\caption{Users by total degree}
+\include{2022/tot_deg}
+\label{tab:tot_deg_2022}
+\end{table}
+
+Finally, Table \ref{tab:tot_deg_2022} displays the 30 users with the highest combined in and out-degrees.
+Several users are found in the previous two tables, all of the users here have at least 24,000 outgoing connections to other users, which explains their high placement.
+However, 8 users have at least 1,000 incoming connections which means they are not just spammers that are being ignored.
+None of these users have more than 2 rus cites, two (u/Prunestand and u/vancouver\_reader) are classified as progressive, the former once again has the most conservative cites with 12.
+While there are more conservative cites, none of these users meets the threshold to be grouped as such.
+The same domains: Reddit (12), Twitter (8), subreddits: r/worldnews (13), r/UkrainianConflict (4), and r/ukraine (5) dominate, which reiterates importance of social media and the ability to target the majority of users using a few selected subreddits.
+We also observe that the user with by far the highest total degree is an apparent moderator, u/WorldNewsMods, as in the previous chapter with u/maxwellhill, these users have untold anonymous power to direct discourse.
+
+\subsection{Textual Analysis}
+
+Next, we train a Word2vec model on submissions and comments and display it as graph of talking points.
+Unlike the previous chapters, because we do not have substantial groups of users, we do not train separate models for each group.
+We use t-SNE to convert the high-dimension vectors into two dimensions and k-means to identify clusters of terms.
+There is no optimal way of presenting dimensionality-reduction nor clustering, we are only viewing a slice of the data, but the graphs do have face-validity.
+Terms in the context of Word2vec are italicized going forward. 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2022/putin}
+\caption{Most-similar to ``putin''}
+\label{fig:putin_2022}
+\end{figure}
+
+Figure \ref{fig:putin_2022} displays the 217 most-similar terms to ``putin'' with 183 excluded.
+Individuals are removed in order to avoid cross-cutting clustering across people and things, several non-grammatical terms due to bad word splits have been filtered out as well, but the largest number of exclusions are derogatory monikers for Putin.
+Compared to figures \ref{fig:superspreader_putin} and \ref{fig:neutral_putin} in Chapter 2, this figure is almost entirely negative.
+
+We locate \emph{putin} at the bottom-center of the graph in a cluster of entities connected to and competing with him: \emph{kremlin, ruzzia(n), russia(s), west, motherland, moscow, opponent, ukraine, ukriane, ccp, russland, g7, rusia, neighbor, g20, russians}.
+Nearby, in the bottom-left is the \emph{sycophant} cluster of individuals that work underneath him: \emph{crony, lackey, lapdog, henchman, depose, siloviki, sycophant, minion, kleptocrat, oust, daddy, coward, oligarch(s), clown, senile, thug, goon, enabler, bidding, scumbag, resign, politician, boss, bastard, pawn, spineless, fsb, kgb, traitor, subordinate}.
+
+The \emph{puppeteer} cluster at the center of the graph includes a mix of terms related to both Putin and his followers: \emph{underling, entourage, grovel, appeaser, please, toady, cowardly, kreml, cower, hardliner, putrid, ruzzkie, foolishly, dethrone, yesman, kowtow, lackie, bff, weakling, afraid, rushist, ilk, leash, fuhrer, assasinate, lash, putz, poisoner, sycophantic, blackmailer, scared, führer, deathly, masterplan, putinist, meekly, croak, blustering, marionette, disloyal, ail}.
+This blends into the \emph{bluff} cluster towards the top of the graph with a discussion of tactics: \emph{acquiesce, miscalculate, placate, relent, goad, offramp, brazen(ly), cajole, endgame, dissuade, gambit}, and the \emph{despot} cluster to the top-left with descriptions of Putin's pyschological makeup: \emph{egomaniac(al), maniacal, megalomania(cal), warmongere, desperate, demented, homicidal, crazed, hellbent, foolish, reckless, madness, suicidal, midget, sick, treacherous, devious}.
+
+In the top-center of thee graph is the aforementioned \emph{bluff} cluster with reactions to him: \emph{embolden, humiliate, appease(ment), capitulate, diplomatically, blackmail, unconditional, negotiator, negotiating, concession}.
+Finally, the \emph{despot} grouping at the top-left contains the most negative descriptors: \emph{dictator, autocrat, despotic, madman, maniac, tyrant, megalomaniac, strongman, warmonger(ing), murderous, regime, tzar, ego(tistical), psycho(path), lunatic, czar, expansionist, paranoid, imperialistic, psychopathic, genocidal, revanchist, ambition, tsar, ruthless, deranged, unhinged, psychotic, imperialist, narcissist, ruler, grandeur}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2022/ukraine}
+\caption{Most-similar to ``ukraine''}
+\label{fig:ukraine_2022}
+\end{figure}
+
+We plotted talking points for ``crimea'' in Chapter 2, now we adjust and compare to the larger topic.
+Figure \ref{fig:ukraine_2022} displays the 222 most-similar terms to ``ukraine'' with 78 excluded.
+Our graph is oriented around a central \emph{26.02.2022} cluster of terms related to the war.
+Towards the top is the \emph{frontline} cluster with an emphasis on the conflict in the east: \emph{donbas(s), ua, crimea, ukr(ainian), transnistria, territory, kyiv, krim, uaf, separatist, regroup, kiev, demilitarize, stalemate, territorial, peacekeeper, ldnr, mobilise, seperatist, luhansk, odessa, mobilize, repel, ceasefire, flank, rf, demilitarization, sievierodonetsk, severodonetsk, peacekeeping, withdraw, breakaway, february, retake, kiyv, donetsk}.
+We note the multiple spellings, suggesting a global audience as well as one less familiar with the topics under discussion.
+
+The top-left includes the \emph{materiel} grouping concerned with logistics: \emph{reinforcement, materiel, troop, front, attrition, resupply, weaponry, manpower, logistic(al), equipment}.
+This bleeds over into the central cluster: \emph{piecemeal, standstill, defensively, outgunne, shipment, rearm, resupplye, force, ready, overextend(ed), airpower, redeployment}.
+Below \emph{materiel} and wrapping around the bottom of the graph is the \emph{willingness} group of more abstract needs and issues: \emph{aggressor, militarily, prolong, decisive(ly), weaken, ally, deter, proxy, pretext, natos, unprovoked, protracted, ongoing, conventional, escalate, invasion, prevent, encroachment, strengthen, resolve, provoke, provocation, concession, escalation, incursion, agression}.
+Once again the central cluster contains similar terms: \emph{continue(d), agressor, conventionally, demilitarise, (de)fend, bolster, prepare(d), invader, rebuff, standstill, defensively, massively, unconditional(ly), aggresor, falter, demilitarisation, vow, suport, currently, win, unequivocal, unwinnable, supplying, guarantee, monetarily, weakened, humanitarian, faltering, rebuild(ing), defend, protract, galvanize, redeployment, valiantly, actively, importantly, ensure, strategically, invigorate, aid}.
+
+Next, \emph{neighbor} cluster at the top, bottom-left, and right includes various surrounding countries and regions: \emph{belarus, europe, moldova, nato, country, poland, kaliningrad, nation, azerbaijan, finland, syria, georgia, eu, armenia, neighbour, baltics, romania, boarder, baltic, doorstep, neighboring, chechnya, csto, turkey}.
+Related topics from the core cluster are: \emph{ukraine, russia(s), ukrainians, ukrania, ruzzia, west, ukraina, transistria, russians, kalingrad, belarussia, homeland, krimea, transnistrian, mauripol, maripol, ue, u.s, force, belerus, belorussia, motherland, usa, allie, ukraini, germany, countrys, finnland}.
+We again note the variety of spellings.
+
+Some of the topics from the middle group worth highlighting: \emph{kriegstreiberei, ghost1069, may/12, heroyam, beitreten, ukrainenews, heroiam, luchtruim, russianews, feb/24}.
+Discussion occurred in a variety of languages, we only pick up traces of this.
+\emph{ghost1069} might refer to a case of Ukrainian propaganda from the early days of the war, the ``Ghost of Kyiv'', an Ukrainian fighter pilot with multiple kills \cite{bubola2022}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{2022/russia}
+\caption{Most-similar to ``russia''}
+\label{fig:russia_2022}
+\end{figure}
+
+For completeness, Figure \ref{fig:russia_2022} displays the 258 most-similar terms to ``russia'' with 42 excluded.
+Russia and Ukraine are often discussed in relation to one another so they present similar terms and clusters.
+Towards the bottom of the graph is a \emph{baltics} cluster of nearby states and organizations: \emph{belarus, nato, lithuania, moldova, finland, azerbaijan, kazakhstan, georgia, turkey, poland, transnistria, serbia, kaliningrad, csto, armenia, hungary}.
+
+Nearby, at the bottom-right is the \emph{conquest} cluster: \emph{territory, crimea, demilitarize, russland, donbas(s), 2014, unilaterally, blockade, concession, stalemate, sovereignty, force, reparation, conflict, front, peninsula, neutrality, annex(ation), ceasefire, manchuria, krim, attempt, regroup, independence, capitulate, region, territorial, invasion}.
+This is bordered by the \emph{alliance} grouping to the right of the graph which includes countries Russia is competing and cooperating with: \emph{russia(s), west, country, militarily, china, taiwan, europe, nation, ally, usa, mainland, economically, weaken, decisively, india, ussr, prevent, diplomatically, adversary, superpower, pakistan, geopolitically, nk, massively, leverage, effectively, strengthen, proxy, alliance, japan, consequence, deterrent, strategic(ally), chinas, resource, britain, costly, cripple, enemy, u.s, opponent, potential, ability, prolong, military, union}.
+Bordering this group, at the top of the graph is the \emph{aggressor} cluster which shares terms with but is more negative than anything in the Ukrainian graph: \emph{neighbor, neighbour, deter, unprovoked, provocation, resist, neighboring, pretext, sovereign, embolden, provoke, hostile, encroachment, retaliate, belligerent, goad, agression, justification, aggressively, escalate, destabilise, threat(en), encroach, subjugate}.
+
+Finally, the \emph{ghost1069} cluster at the center contains a veriety of topics: \emph{ruzzia(n), agress(or), landgrab, pre-2014, petrostate, sovereignity, tiawan, illegaly, demilitarisation, militarize, countire, medlemmerne, taiwain, ruinous, u.s.-led, tawain, destabalize, anex(e), invading, conquering, belligerence, konflikt, destabilising, balkanize, kazakstan, post-2014, medlemmer, rapprochement, khazakstan, justifiably, moldovia, e.u, independance, antagonise, threatne, sovreignty, kriegstreiberei, verlengt, contry, strongarm, militarise, r*ssia, ns2, perpetuity}.
+Ghost makes a return, as well as foreign language terms and various spellings.
+This cluster tends towards negative notions like aggression but it also is forward-looking with its emphasis on Taiwan (and China's possible moves there) as well as other countries that Russia has shown an interest in like Moldova.
+It evokes fear of ongoing conflict.
+
+\section{Discussion}
+
+In this chapter we analyzed conspiracy theories and their increasing use as an effective tool across social media.
+Conspiracy theories rely on natural human faults like confirmation bias, tend to use ``the paranoid style'', and are a way for threatened groups to target an ``Other'' as a means of regaining power when faced with limited or confusing information.
+These theories are especially adopted by those that have previously been discriminated against, they offer holistic, self-sealing stories that easily adapt to any flaws in existing narratives.
+Soviet active measures have long used conspiracy theories as a strategy of increasing social distrust, popular narratives of the last 20 years have included 9/11 truthers, Birtherism, and claims of false flags around major events, including the shooting at Sandy Hook Elementary.
+They were used throughout the 2016 US presidential campaign, the Covid-19 pandemic, and the invasion of Ukraine.
+
+We studied discussion around the February 2022 invasion of Ukraine by processing Reddit's submissions and comments from January through June of that year.
+There is a sharp spike in activity the day of the invasion (February 24) and then a gradual reduction to lower levels.
+This includes discussion in a variety of expected subreddits as well as the citing of a wide-range of mainstream domains, mainly from the United States but also from foreign outlets in the United Kingdom and elsewhere.
+Highly-cited Wikipedia articles contain Russian talking points like past foreign regime changes of the United States and claims of neofascism in Ukraine, but also include relevant topics such as the Wagner Group, a private paramilitary organization with direct ties to the Putin regime.
+
+The most-active and connected users tend to favor social media like Twitter and a few specifc subreddits including r/worldnews, but unlike previous chapters do not post large numbers of partisan domains that we preselect into groups.
+In the Word2vec analysis, topics of discussion related to Putin, Russia, and Ukraine are especially unfavorable towards Putin and Russia and may show evidence of the influence of Ukrainian propaganda in the so-called ``Ghost of Kyiv''.
+
+What caused the reduction of rus, conservative, and progressive users apparent  throughout Chapter 4?
+The rus group in particular, sourced from Chapter 2, is virtually non-existent, especially among the most-connected users, the exact opposite from 2013-2015, where they dominated the top k-shells.
+Regarding the conservatives and progressives, many of the more partisan domains simply are not relevant or are not the best sources of information when we shift from a domestic to global context.
+
+It is important to note that the methods used in this chapter are slightly different, because we do not directly match on comments, we only pick up domains that are submitted as stories, as such, it is possible that we are missing users that primarily attempt to influence discussion by commenting.
+The analysis of these comments is an obvious choice for future research.
+With the processed data, we have two main reasons for this change in behavior: tighter controls by Reddit and user adaptation.
+
+Reddit has publicly stated that after 2016 they began banning Russian and other accounts connected to astroturfing campaigns, YouTube and other sites similarly have banned Russian state media \cite{browne2018}.
+This is visible in the data, the user u/vigorous, very prolific in the invasion of Crimea and even found in the 2016 presidential data, as of 2023 has been banned.
+It is likely that the most obvious Russian propaganda is identifiable and prevented by site administration.
+When it is not, outlets like RT simply do not have the credibility they had as a counterweight to Western interests after the Russian invasion and revelations of incidents like the massacre in Bucha. 
+
+However, just as likely is that Russian propaganda has changed form.
+Social media was originally used because of its virality and the immediate metrics it provided, propagandists like other outlets were able to quickly figure out what attracted interest and what did not \cite[p. 28]{woolley2018}.
+Prior to the fall of the Soviet Union, scholars observed the apparent ``sophisticated reaction'' of the militaries of the US and USSR adapting to each other through changes in expenditures \cite{williams1988}. 
+This happened despite massive bureaucracies and dealt with physical, expensive armaments.
+What is changing a social media campaign in comparison?
+We should expect rapid iteration, both in the forms of propaganda used (perhaps outlets we have not identified) and in form.
+Reddit was important in 2013 and is in 2023, but there are entire networks that did not exist then, like TikTok.
+We should not expect the same behavior across a decade, as Reddit is no longer the largest captive audience, it may already be irrelevant, only a secondary arm of today's propaganda.
+
+\chapter{Conclusion}
+\epigraph{I remember that the white men were coming to fight us and take away our land, and I thought it was not right. We are humans, too, and God created us all alike, and I was going to do the best I could to defend my nation.  So I started on the warpath when I was 16 years old.}{Fire Thunder}
+
+The preceding chapters analyzed computational propaganda on Reddit from 2013 through 2022.
+In the introduction we defined computational propaganda - the use of Big Data, algorithms, bots, and astroturfing campaigns on the Internet and social media at a global, never before seen scale.
+Propaganda is ancient but the 20th century saw its rapid development, in the United States through mass media and by figures such as Edward Bernays and in the Soviet Union through the use of active measures - misinformation and disinformation campaigns that target divisions and weaknesses in other countries.
+Computational propaganda as practiced by Russia today is only the most recent iteration of this.
+
+We also introduce the concept of framing, or the manner in which a topic is presented.
+Disinformation and misinformation are both methods of framing by manipulating the context around a discussion.
+Similarly, arguments have dimensionality, or layers, politicians and those involved in arguments can either use rhetoric to ``win'' the discussion over existing issues or they can introduce additional dimensions to reframe the topic and debate in their favor.
+This is common on social media where individuals are constantly introducing new viewpoints to existing discussions, not always in good faith.
+
+One final aspect of framing is the notion of selectorate theory.
+This political science concept suggests that leaders have multiple audiences that they are responsive to, but their innermost circle, the selectorate,  drives much of their behavior.
+It explains Putin's motivations and blindspots in invading Ukraine as well as the failures of Zuckerberg at Facebook and CEOs at other social media companies to notice the presence of computational propaganda on their platforms throughout the 2016 US presidential election.
+It is a form of ``echo chamber'', a wider issue which seems to plague much modern media and conversation.
+
+Our analysis of Reddit, and that of social scientists pursuing and communicating similar research must recognize this cultural aspect.
+We distinguish between science and scientism and emphasize the importance of empathy and knowing our own biases and limitations.
+We build a framework that we follow in each chapter using Python, R, simple heuristics, and applied statistics and algorithms that are modern but above all easy to understand.
+
+First, we choose a timeframe that we download data for, then filter it using keywords and graph and observe temporal trends in the data.
+Next, we identify and group users based on which subreddits they post in or which domains they post from using preselected lists of domains.
+We are additionally able to study narratives using these extracted domains as well as posted Wikipedia articles which are telling collections of facts and events.
+Third, we use various network analysis tools like k-shell composition, betweenness centrality, and in and out-degree to position users and groups of users within the wider network of interacting users in order to discern who most directs and affects discussion.
+Finally, using the text from submissions and comments, we train separate high-dimensionality models using Word2vec in order to extract most-similar words for various terms.
+We then use t-SNE to reduce these scores to two dimensions, plotting graphs of ``talking points'' clustered by topic using k-means, this gives a visual summary of discussion in under 300 words. 
+The summarization in each of these steps is possible because human behavior follows power laws by which a small subset of data, whether users, links, or subreddits tend to represent the majority of activity.
+ 
+Chapter 2 covers the build-up to and annexation of Crimea in February 2014 by Russia.
+Putin and oligarchs came to power in the 1990s following the fall of the USSR.
+Throughout this time, Russia's tech industry grew in an environment of political and economic openness.
+Circa 2005, Russia began using tools like Russia Today to reorient and position itself as a pragmatic competitor to the United States.
+By 2012 with the return of Putin to the presidency, this shifted to the restriction of freedoms and the use of computational propaganda at home and abroad as an extension of Soviet/Russian active measures.
+
+In November 2013, Ukraine's Russian-favoring president refused to sign a negotiated agreement with the European Union which would have increased economic and political ties, this led to protests known as Euromaidan starting that month.
+February 2014 brought his ouster and he fled the country, in response Russia annexed Crimea and began directly supporting rebels in the Donbas region in eastern Ukraine, a conflict which only nominally was halted with the Minsk agreements in February 2015.
+
+Other researchers found evidence of Russian computational propaganda, trolls, bots, and falsehoods spread by state media across social media at this time.
+We study these events on Reddit by filtering data from 2013 through 2015.
+Peak activity overlaps, occurring in February 2014, July 2014 when MH17 was shot down over Donbas, and to a lesser extent in November 2013 and February 2015.
+Pro-Russian ``superspreaders'' and users are identified based on their posting from a preselected list of Russian state websites and biased or extremist domains. 
+These users favor niche, noncredible sources and legalistic arguments from Wikipedia based on whataboutism.
+Using various measures of network centrality and connectivity, superspreaders like u/vigorous dominate the most influential positions of the network, and in an analysis of discussions using Word2vec, Russian talking points such as comparing Crimea's annexation to independence movements throughout the world are readily apparent. 
+
+Chapter 3 covers the 2016 presidential election in the United States.
+The Mueller Report, released in 2019, details coordinated astroturfing by Russian agents across social media.
+This was combined with hacking and contact with Trump campaign officials, summarized as ``systematic and sweeping'' election interference.
+
+We contrast and compare the political cultures of Russia and the United States.
+Russia's thousand-year history includes heavy influence by the Eastern Roman (Byzantine) Empire, from which it adopted Orthodox Christianity, the role of the autocrat ruler, and its role as protector of the Slavic peoples.
+The United States has a similar expansionist history, but took influence from the political ideas of Western Europe, these were distilled into a designed Constitution and form of government elaborated on at length in the Federalist Papers.
+Both countries, but especially the capitalist, democratic US, experienced massive social and political change due to the Industrial Revolution and changing communication technology over the last few hundred years.
+Innovations in technology like paper and the printing press had similar effects, but were the process of much more gradual discoveries across many different cultures.
+It is this global, instant, mass communication against which the designed political institutions of the United States are not prepared.
+
+Our analysis of Reddit uses filtered relevant data from 2015 through 2017.
+User activity corresponds to usual seasonal and campaign cycles, peaking during the primary season, at election time, and during the inauguration, depending on the candidate (Sanders and Clinton supporters are less active after their defeats).
+We identify groups of progressive and conservative subreddits by which users are categorized.
+The subreddit r/The\_Donald is the most  active of our selected subreddits, but it is an outlier, otherwise progressive subreddits including r/politics and candidate subreddits have much more traffic than conservative.
+
+Progressive and conservatives share common mainstream sources like the New York Times as well as popular social media cites including Twitter.
+Each group posts from expected partisan sources, however, conservatives favor niche and conspiratorial sources like InfoWars and Stop the Steal, a pattern which continues in linked Wikipedia articles.
+
+In terms of network analysis, progressives tend to dominate positions of influence, though conservative users are present, likely due to the general progressive tilt of Reddit as a whole.
+While r/The\_Donald has fervent supporters, those supporters tend to cluster within that subreddit, not unlike real-life Trump voters.
+Textual analysis using Word2vec shows the heavy presence of conspiracy theories like Pizzagate and Russiagate in reference to the Mueller Report, matching Trump's rhetoric of a Deep State coup against him.
+Progressive descriptions use more neutral, factual language common to mainstream news articles.
+Both groups use negative language to describe each other, but also show similar concerns, especially around popular media.
+We note that this preference for alternative sources goes back to the rise of cable television and talk radio apparent by the Gingrich Congress.
+Underdogs naturally seek to undermine existing larger players and today every YouTube channel, Twitter account, and Substack has incentive to spread distrust of mainstream media.
+ 
+Finally, Chapter 4 covers the rise of conspiracy theories and their effect on the Russian invasion of Ukraine in 2022.
+Conspiracy theories are presumptions of conspiracy, a populist form of power where information or rationality are limited, usually relying on ``the paranoid style''.
+They are attractive because they offer unifying explanations of events and a  responsible ``Other''.
+Though they feed on human flaws like confirmation bias, they are attractive in an ever-changing world, especially to individuals and groups that have previously faced discrimination.
+Conspiracy theories have seen a rise in popularity since the 1990s with claims of false flags around major events.
+Trump used them before, during, and after his presidency, and Russian active measures promoted them during the Covid-19 pandemic and the invasion of Ukraine.
+ 
+Our analysis of Reddit uses relevant filtered data from January through June 2022. 
+The most activity occurs the first day of the invasion, February 24th, then decreases to lower but still noticeable levels.
+We only match on submissions, which may alter the results, but the most popular submitted domains are mainstream sources.
+Wikipedia articles include Russian talking points as well as articles critical of Putin and Russia and covering topics such as Yevgeny Prigozhin's Wagner Group.
+
+Social media sites like Twitter are popular among the most-connected users in the network analysis, but notably the majority these users do not belong in the rus, progressive, or conservative groups established in the previous chapters.
+The rus group in particular is especially absent, further confirmed in the textual Word2vec analysis which is especially critical of Putin and Russia and shows apparent Ukrainian propaganda such as the ``Ghost of Kyiv''.
+We attribute this to more awareness of computational propaganda by Reddit admins, the loss of credibility of Russian sources, as well as the likely shifting of Russian tactics since 2013 to be less obvious and targeting newer social media like TikTok. 
+
+In the introduction we asked two questions.
+First, does Reddit show evidence of being captured by ideologically extreme entities like special interest groups or nation-states?
+Second, how is this capture affecting objective coverage of events?
+Chapter 2 shows obvious capture with pro-Russian users and discourse dominating discussion.
+Chapter 3 shows capture within limited groups, for example, conservative users mimic Trump's rhetoric.
+In each instance, the discussion is biased towards these entities in an extreme manner, like the presentation of the Mueller investigation as a coup.
+Furthermore, our analysis does not examine submissions and comments at an individual level, but a quick perusal of any political subreddit, progressive or conservative, includes heated, othering language.
+Some subreddits are less biased and more objective, but the very design of the site encourages sorting into ideological groups.
+
+This leads to open questions.
+Russia's system of propaganda is a ``media factory'' of outlets like RT which create content and trolls and bots which distribute it, but which part of the factory are we observing?
+Was u/vigorous a paid troll or just a nationalist Russian?
+How much of the activity around 2013 or on a subreddit like r/conspiracy is the direct result of agents paid by the Russian state versus second-level users that are absorbing and sharing it?
+In comparison to King, Pan, and Roberts (2017) we have no Rosetta Stone, no ground truth data by which to confirm the government connection of identified users \cite{king2017}. 
+The organization that has the best data for this kind of analysis is Reddit with Internet (IP) addresses, this allows them to track user behavior and is probably the basis by which many of their bans of Russian users happens.
+Sytematic research like this study using that data would be very revealing, but 
+can only happen internally.
+
+Domestic organizations present similar issues.
+We know of the existence of Correct the Record, which supported Clinton during the 2016 election, but have no easy way of tracking its activity.
+The domains shared and discussion generated are from sites and individuals within the United States which means there is less locational data or behavioral data to make this artificial astroturfing stand out from other partisan users.
+There is likely the perception that this kind of activity is different than that of paid campaigns which organize people to go door to door, but to what extent?
+Candidates, companies, and entities connected to the US government are greatly incentivized to run these campaigns which manipulate public opinion, they are effective precisely because they appear to be organic behavior.
+Researchers need better open data from organizations like Reddit.
+
+Researchers also need better tools and research design.
+This study is only a demonstration of what is possible using available data, establishing ways of grouping topics and users, and emphasizing the importance of dimensionality.
+These tools have rapidly improved just since the start of this dissertation.
+Word2vec was created in 2008, but transformer models like BERT promise better mapping of the relationship between words in documents.
+This allows us to, for example, disentangle the terms progressive and conservative in the same piece of text, commonly found together but used in comparison to each other.
+Part of adopting new tools will not just involve using the latest and greatest, but determining what meets researcher needs while still being easy to use and  understand, only possible over multiple studies.
+
+Finally, text is only the beginning.
+Today's social media is already shifting to other mediums including audio and video and to these use of generative models like ChatGPT.
+Future studies will need to track similar user networks and metadata as this analysis of Reddit, but they will want to examine the content of the video itself, tracking and detecting recognizable objects and accurately transcribing dialogue.
+More challenging will be filtering mass amounts of artificially generated material.
+We hope this study provides inspiration towards these future analyses.
+For updates, including an extension to this conclusion, please visit \url{http://lebo.io/comprop}.
+
+\begin{thesisbib}
+\bibliography{references}
+\end{thesisbib}
+
+\begin{biosketch}
+Aaron Lebo is from Dallas.
+He began programming in 2005 and graduate studies at The University of Texas at Dallas in 2010.
+He lives with this dog, Teddy Roosevelt, is interested in history and languages, and works on open source technologies.
+\end{biosketch}
+
+\begin{vita}
+  \begin{center}
+     {\LARGE\bfseries Aaron Lebo} \\[5pt]
+     April 17, 2023
+   \end{center}
+
+   \bigskip
+
+   {\large\bfseries Contact Information:\par}
+   \medskip
+   \noindent\vtop{\hsize=.49\hsize
+     School of Economic, Political & Policy Sciences\par
+     The University of Texas at Dallas\par
+     800 W.~Campbell Rd.\par
+     Richardson, TX 75080-3021, U.S.A.\par}
+   \hfil\vtop{\hsize=.49\hsize
+     Voice: (972) 883-2935\par
+     Email: \texttt{aaron.lebo@utdallas.edu}\par}\par
+
+   \bigskip
+
+   {\large\bfseries Educational History:\par}
+   \medskip
+   AS, El Centro College, 2006\par
+   BA, Interdisciplinary Studies, The University of Texas at Dallas, 2009\par
+   MA, Political Science, The University of Texas at Dallas, 2011\par
+
+   \bigskip
+
+   {\large\bfseries Employment History:\par}
+   \medskip
+   Research Assistant, The University of Texas at Dallas,
+     May 2017~-- March 2021\par
+   Programmer, FXdirect, Inc.,
+     February 2006~-- December 2017\par
+  
+\end{vita}
+
+\end{document}
+

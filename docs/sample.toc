@@ -1,0 +1,54 @@
+\contentsline {chapter}{\MakeUppercase []{Acknowledgments}}{v}{chapter*.1}%
+\contentsline {chapter}{ABSTRACT}{vi}{section*.2}%
+\contentsline {chapter}{\MakeUppercase []{List of Figures}}{ix}{chapter*.4}%
+\contentsline {chapter}{\MakeUppercase []{List of Tables}}{x}{chapter*.5}%
+\contentsline {chapter}{\MakeUppercase []{Chapter}\nobreakspace \numberline {1}\MakeUppercase []{Introduction}}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Science and Kuhnian Revolutions}{6}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Computational Propaganda}{8}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Active Measures}{9}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Framing}{11}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Dimensionality}{12}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Selectorate Theory}{13}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Graph Theory}{14}{section.1.7}%
+\contentsline {section}{\numberline {1.8}Textual Analysis}{16}{section.1.8}%
+\contentsline {section}{\numberline {1.9}Dataset}{17}{section.1.9}%
+\contentsline {section}{\numberline {1.10}Methods}{19}{section.1.10}%
+\contentsline {chapter}{\MakeUppercase []{Chapter}\nobreakspace \numberline {2}\MakeUppercase []{rusprop: Crisis in Ukraine (2013-2015)}}{21}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Introduction}{21}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Results}{28}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Dataset}{28}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Classification}{34}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Network Analysis}{46}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Textual Analysis}{54}{subsection.2.2.4}%
+\contentsline {section}{\numberline {2.3}Discussion}{64}{section.2.3}%
+\contentsline {chapter}{\MakeUppercase []{Chapter}\nobreakspace \numberline {3}\MakeUppercase []{usprop: The 2016 Presidential Election (2015-2017)}}{67}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction}{67}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}The Mueller Report: Conspiracy, Coordination, Collusion?}{68}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}History}{71}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}The Federalist Papers}{75}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Communication is Key}{80}{subsection.3.1.4}%
+\contentsline {section}{\numberline {3.2}Results}{87}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Dataset}{87}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Classification}{95}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Network Analysis}{105}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Textual Analysis}{109}{subsection.3.2.4}%
+\contentsline {section}{\numberline {3.3}Discussion}{123}{section.3.3}%
+\contentsline {chapter}{\MakeUppercase []{Chapter}\nobreakspace \numberline {4}\MakeUppercase []{panprop: Putin's War (2022)}}{128}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{128}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}What is a Conspiracy (Theory)?}{129}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Conspiracism and the Paranoid Style}{132}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Why Believe in Conspiracy Theories?}{134}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Flawed Thinking}{135}{subsection.4.1.4}%
+\contentsline {subsection}{\numberline {4.1.5}The Terrorism Connection and the Rise of Q}{137}{subsection.4.1.5}%
+\contentsline {section}{\numberline {4.2}Results}{142}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Dataset}{142}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Classification}{146}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Network Analysis}{152}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Textual Analysis}{156}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Discussion}{163}{section.4.3}%
+\contentsline {chapter}{\MakeUppercase []{Chapter}\nobreakspace \numberline {5}\MakeUppercase []{Conclusion}}{166}{chapter.5}%
+\def \UTD@tocpenalty {\@M }
+\contentsline {chapter}{\MakeUppercase []{References}}{174}{chapter*.62}%
+\contentsline {chapter}{\MakeUppercase []{Biographical Sketch}}{190}{chapter*.63}%
+\UTD@stopnumbering 
+\contentsline {chapter}{\MakeUppercase []{Curriculum Vitae}}{191}{chapter*.64}%

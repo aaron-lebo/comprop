@@ -1,0 +1,185 @@
+,k,cites,users
+0,1,rus (n >= 10),0
+1,1,progressive (n >= 25),5
+2,1,conservative (n >= 25),5
+3,1,neutral,409076
+4,2,rus (n >= 10),1
+5,2,progressive (n >= 25),5
+6,2,conservative (n >= 25),3
+7,2,neutral,165026
+8,3,rus (n >= 10),3
+9,3,progressive (n >= 25),3
+10,3,conservative (n >= 25),3
+11,3,neutral,81321
+12,4,rus (n >= 10),3
+13,4,progressive (n >= 25),2
+14,4,conservative (n >= 25),3
+15,4,neutral,49193
+16,5,rus (n >= 10),0
+17,5,progressive (n >= 25),6
+18,5,conservative (n >= 25),2
+19,5,neutral,31812
+20,6,rus (n >= 10),3
+21,6,progressive (n >= 25),3
+22,6,conservative (n >= 25),5
+23,6,neutral,22492
+24,7,rus (n >= 10),2
+25,7,progressive (n >= 25),3
+26,7,conservative (n >= 25),4
+27,7,neutral,16407
+28,8,rus (n >= 10),1
+29,8,progressive (n >= 25),3
+30,8,conservative (n >= 25),2
+31,8,neutral,12495
+32,9,rus (n >= 10),0
+33,9,progressive (n >= 25),3
+34,9,conservative (n >= 25),3
+35,9,neutral,10112
+36,10,rus (n >= 10),2
+37,10,progressive (n >= 25),3
+38,10,conservative (n >= 25),0
+39,10,neutral,7503
+40,11,rus (n >= 10),1
+41,11,progressive (n >= 25),6
+42,11,conservative (n >= 25),0
+43,11,neutral,6231
+44,12,rus (n >= 10),0
+45,12,progressive (n >= 25),5
+46,12,conservative (n >= 25),1
+47,12,neutral,5139
+48,13,rus (n >= 10),0
+49,13,progressive (n >= 25),4
+50,13,conservative (n >= 25),1
+51,13,neutral,4223
+52,14,rus (n >= 10),1
+53,14,progressive (n >= 25),1
+54,14,conservative (n >= 25),1
+55,14,neutral,3777
+56,15,rus (n >= 10),0
+57,15,progressive (n >= 25),1
+58,15,conservative (n >= 25),1
+59,15,neutral,3153
+60,16,rus (n >= 10),1
+61,16,progressive (n >= 25),1
+62,16,conservative (n >= 25),1
+63,16,neutral,2706
+64,17,rus (n >= 10),2
+65,17,progressive (n >= 25),2
+66,17,conservative (n >= 25),0
+67,17,neutral,2311
+68,18,rus (n >= 10),3
+69,18,progressive (n >= 25),4
+70,18,conservative (n >= 25),1
+71,18,neutral,2001
+72,19,rus (n >= 10),1
+73,19,progressive (n >= 25),3
+74,19,conservative (n >= 25),1
+75,19,neutral,1659
+76,20,rus (n >= 10),1
+77,20,progressive (n >= 25),1
+78,20,conservative (n >= 25),2
+79,20,neutral,1324
+80,21,rus (n >= 10),0
+81,21,progressive (n >= 25),0
+82,21,conservative (n >= 25),1
+83,21,neutral,1433
+84,22,rus (n >= 10),0
+85,22,progressive (n >= 25),0
+86,22,conservative (n >= 25),0
+87,22,neutral,1198
+88,23,rus (n >= 10),1
+89,23,progressive (n >= 25),0
+90,23,conservative (n >= 25),0
+91,23,neutral,1038
+92,24,rus (n >= 10),5
+93,24,progressive (n >= 25),2
+94,24,conservative (n >= 25),0
+95,24,neutral,962
+96,25,rus (n >= 10),0
+97,25,progressive (n >= 25),4
+98,25,conservative (n >= 25),1
+99,25,neutral,861
+100,26,rus (n >= 10),0
+101,26,progressive (n >= 25),1
+102,26,conservative (n >= 25),1
+103,26,neutral,818
+104,27,rus (n >= 10),2
+105,27,progressive (n >= 25),3
+106,27,conservative (n >= 25),0
+107,27,neutral,689
+108,28,rus (n >= 10),0
+109,28,progressive (n >= 25),0
+110,28,conservative (n >= 25),1
+111,28,neutral,654
+112,29,rus (n >= 10),0
+113,29,progressive (n >= 25),2
+114,29,conservative (n >= 25),0
+115,29,neutral,556
+116,30,rus (n >= 10),1
+117,30,progressive (n >= 25),4
+118,30,conservative (n >= 25),0
+119,30,neutral,623
+120,31,rus (n >= 10),1
+121,31,progressive (n >= 25),2
+122,31,conservative (n >= 25),1
+123,31,neutral,1168
+124,32,rus (n >= 10),0
+125,32,progressive (n >= 25),2
+126,32,conservative (n >= 25),2
+127,32,neutral,410
+128,33,rus (n >= 10),0
+129,33,progressive (n >= 25),6
+130,33,conservative (n >= 25),0
+131,33,neutral,1001
+132,34,rus (n >= 10),0
+133,34,progressive (n >= 25),0
+134,34,conservative (n >= 25),0
+135,34,neutral,91
+136,35,rus (n >= 10),0
+137,35,progressive (n >= 25),0
+138,35,conservative (n >= 25),0
+139,35,neutral,80
+140,36,rus (n >= 10),0
+141,36,progressive (n >= 25),0
+142,36,conservative (n >= 25),0
+143,36,neutral,57
+144,37,rus (n >= 10),0
+145,37,progressive (n >= 25),0
+146,37,conservative (n >= 25),1
+147,37,neutral,166
+148,38,rus (n >= 10),0
+149,38,progressive (n >= 25),1
+150,38,conservative (n >= 25),0
+151,38,neutral,66
+152,39,rus (n >= 10),0
+153,39,progressive (n >= 25),1
+154,39,conservative (n >= 25),0
+155,39,neutral,131
+156,40,rus (n >= 10),0
+157,40,progressive (n >= 25),0
+158,40,conservative (n >= 25),0
+159,40,neutral,31
+160,41,rus (n >= 10),0
+161,41,progressive (n >= 25),0
+162,41,conservative (n >= 25),0
+163,41,neutral,27
+164,42,rus (n >= 10),0
+165,42,progressive (n >= 25),0
+166,42,conservative (n >= 25),0
+167,42,neutral,31
+168,43,rus (n >= 10),0
+169,43,progressive (n >= 25),0
+170,43,conservative (n >= 25),0
+171,43,neutral,20
+172,44,rus (n >= 10),0
+173,44,progressive (n >= 25),0
+174,44,conservative (n >= 25),0
+175,44,neutral,63
+176,45,rus (n >= 10),0
+177,45,progressive (n >= 25),1
+178,45,conservative (n >= 25),0
+179,45,neutral,49
+180,46,rus (n >= 10),0
+181,46,progressive (n >= 25),5
+182,46,conservative (n >= 25),0
+183,46,neutral,165

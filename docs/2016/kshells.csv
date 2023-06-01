@@ -1,0 +1,471 @@
+,k,cites,users
+0,1,progressive (25 <= n <= 99),10677
+1,1,conservative (25 <= n <= 99),5281
+2,1,progressive (n >= 100),9
+3,1,conservative (n >= 100),4
+4,1,neutral,378200
+5,2,progressive (25 <= n <= 99),8085
+6,2,conservative (25 <= n <= 99),3944
+7,2,progressive (n >= 100),6
+8,2,conservative (n >= 100),3
+9,2,neutral,148255
+10,3,progressive (25 <= n <= 99),6545
+11,3,conservative (25 <= n <= 99),3197
+12,3,progressive (n >= 100),2
+13,3,conservative (n >= 100),3
+14,3,neutral,76221
+15,4,progressive (25 <= n <= 99),5511
+16,4,conservative (25 <= n <= 99),2818
+17,4,progressive (n >= 100),2
+18,4,conservative (n >= 100),2
+19,4,neutral,47620
+20,5,progressive (25 <= n <= 99),4666
+21,5,conservative (25 <= n <= 99),2408
+22,5,progressive (n >= 100),5
+23,5,conservative (n >= 100),2
+24,5,neutral,32267
+25,6,progressive (25 <= n <= 99),4046
+26,6,conservative (25 <= n <= 99),2133
+27,6,progressive (n >= 100),0
+28,6,conservative (n >= 100),3
+29,6,neutral,22924
+30,7,progressive (25 <= n <= 99),3638
+31,7,conservative (25 <= n <= 99),1850
+32,7,progressive (n >= 100),6
+33,7,conservative (n >= 100),3
+34,7,neutral,17573
+35,8,progressive (25 <= n <= 99),3276
+36,8,conservative (25 <= n <= 99),1703
+37,8,progressive (n >= 100),5
+38,8,conservative (n >= 100),2
+39,8,neutral,13664
+40,9,progressive (25 <= n <= 99),2827
+41,9,conservative (25 <= n <= 99),1575
+42,9,progressive (n >= 100),2
+43,9,conservative (n >= 100),2
+44,9,neutral,10787
+45,10,progressive (25 <= n <= 99),2689
+46,10,conservative (25 <= n <= 99),1435
+47,10,progressive (n >= 100),2
+48,10,conservative (n >= 100),3
+49,10,neutral,9025
+50,11,progressive (25 <= n <= 99),2480
+51,11,conservative (25 <= n <= 99),1372
+52,11,progressive (n >= 100),6
+53,11,conservative (n >= 100),4
+54,11,neutral,7442
+55,12,progressive (25 <= n <= 99),2337
+56,12,conservative (25 <= n <= 99),1255
+57,12,progressive (n >= 100),3
+58,12,conservative (n >= 100),4
+59,12,neutral,6182
+60,13,progressive (25 <= n <= 99),2113
+61,13,conservative (25 <= n <= 99),1129
+62,13,progressive (n >= 100),2
+63,13,conservative (n >= 100),2
+64,13,neutral,5416
+65,14,progressive (25 <= n <= 99),2016
+66,14,conservative (25 <= n <= 99),1054
+67,14,progressive (n >= 100),1
+68,14,conservative (n >= 100),1
+69,14,neutral,4569
+70,15,progressive (25 <= n <= 99),1852
+71,15,conservative (25 <= n <= 99),1016
+72,15,progressive (n >= 100),0
+73,15,conservative (n >= 100),3
+74,15,neutral,3927
+75,16,progressive (25 <= n <= 99),1678
+76,16,conservative (25 <= n <= 99),889
+77,16,progressive (n >= 100),1
+78,16,conservative (n >= 100),2
+79,16,neutral,3449
+80,17,progressive (25 <= n <= 99),1530
+81,17,conservative (25 <= n <= 99),799
+82,17,progressive (n >= 100),5
+83,17,conservative (n >= 100),6
+84,17,neutral,2993
+85,18,progressive (25 <= n <= 99),1509
+86,18,conservative (25 <= n <= 99),842
+87,18,progressive (n >= 100),3
+88,18,conservative (n >= 100),2
+89,18,neutral,2790
+90,19,progressive (25 <= n <= 99),1442
+91,19,conservative (25 <= n <= 99),800
+92,19,progressive (n >= 100),5
+93,19,conservative (n >= 100),5
+94,19,neutral,2357
+95,20,progressive (25 <= n <= 99),1362
+96,20,conservative (25 <= n <= 99),744
+97,20,progressive (n >= 100),6
+98,20,conservative (n >= 100),2
+99,20,neutral,2004
+100,21,progressive (25 <= n <= 99),1337
+101,21,conservative (25 <= n <= 99),740
+102,21,progressive (n >= 100),4
+103,21,conservative (n >= 100),4
+104,21,neutral,1866
+105,22,progressive (25 <= n <= 99),1222
+106,22,conservative (25 <= n <= 99),668
+107,22,progressive (n >= 100),4
+108,22,conservative (n >= 100),1
+109,22,neutral,1587
+110,23,progressive (25 <= n <= 99),1183
+111,23,conservative (25 <= n <= 99),648
+112,23,progressive (n >= 100),1
+113,23,conservative (n >= 100),2
+114,23,neutral,1541
+115,24,progressive (25 <= n <= 99),1058
+116,24,conservative (25 <= n <= 99),602
+117,24,progressive (n >= 100),6
+118,24,conservative (n >= 100),2
+119,24,neutral,1280
+120,25,progressive (25 <= n <= 99),985
+121,25,conservative (25 <= n <= 99),582
+122,25,progressive (n >= 100),2
+123,25,conservative (n >= 100),5
+124,25,neutral,1196
+125,26,progressive (25 <= n <= 99),965
+126,26,conservative (25 <= n <= 99),546
+127,26,progressive (n >= 100),0
+128,26,conservative (n >= 100),1
+129,26,neutral,1146
+130,27,progressive (25 <= n <= 99),992
+131,27,conservative (25 <= n <= 99),546
+132,27,progressive (n >= 100),3
+133,27,conservative (n >= 100),4
+134,27,neutral,1085
+135,28,progressive (25 <= n <= 99),923
+136,28,conservative (25 <= n <= 99),499
+137,28,progressive (n >= 100),4
+138,28,conservative (n >= 100),3
+139,28,neutral,929
+140,29,progressive (25 <= n <= 99),887
+141,29,conservative (25 <= n <= 99),478
+142,29,progressive (n >= 100),2
+143,29,conservative (n >= 100),0
+144,29,neutral,886
+145,30,progressive (25 <= n <= 99),882
+146,30,conservative (25 <= n <= 99),522
+147,30,progressive (n >= 100),2
+148,30,conservative (n >= 100),0
+149,30,neutral,837
+150,31,progressive (25 <= n <= 99),757
+151,31,conservative (25 <= n <= 99),430
+152,31,progressive (n >= 100),2
+153,31,conservative (n >= 100),0
+154,31,neutral,684
+155,32,progressive (25 <= n <= 99),782
+156,32,conservative (25 <= n <= 99),428
+157,32,progressive (n >= 100),7
+158,32,conservative (n >= 100),2
+159,32,neutral,668
+160,33,progressive (25 <= n <= 99),749
+161,33,conservative (25 <= n <= 99),404
+162,33,progressive (n >= 100),4
+163,33,conservative (n >= 100),0
+164,33,neutral,560
+165,34,progressive (25 <= n <= 99),719
+166,34,conservative (25 <= n <= 99),365
+167,34,progressive (n >= 100),4
+168,34,conservative (n >= 100),3
+169,34,neutral,610
+170,35,progressive (25 <= n <= 99),689
+171,35,conservative (25 <= n <= 99),402
+172,35,progressive (n >= 100),1
+173,35,conservative (n >= 100),2
+174,35,neutral,567
+175,36,progressive (25 <= n <= 99),735
+176,36,conservative (25 <= n <= 99),376
+177,36,progressive (n >= 100),2
+178,36,conservative (n >= 100),1
+179,36,neutral,514
+180,37,progressive (25 <= n <= 99),640
+181,37,conservative (25 <= n <= 99),380
+182,37,progressive (n >= 100),2
+183,37,conservative (n >= 100),5
+184,37,neutral,451
+185,38,progressive (25 <= n <= 99),582
+186,38,conservative (25 <= n <= 99),336
+187,38,progressive (n >= 100),5
+188,38,conservative (n >= 100),4
+189,38,neutral,461
+190,39,progressive (25 <= n <= 99),564
+191,39,conservative (25 <= n <= 99),343
+192,39,progressive (n >= 100),5
+193,39,conservative (n >= 100),0
+194,39,neutral,348
+195,40,progressive (25 <= n <= 99),560
+196,40,conservative (25 <= n <= 99),310
+197,40,progressive (n >= 100),1
+198,40,conservative (n >= 100),3
+199,40,neutral,365
+200,41,progressive (25 <= n <= 99),585
+201,41,conservative (25 <= n <= 99),307
+202,41,progressive (n >= 100),3
+203,41,conservative (n >= 100),2
+204,41,neutral,337
+205,42,progressive (25 <= n <= 99),590
+206,42,conservative (25 <= n <= 99),326
+207,42,progressive (n >= 100),0
+208,42,conservative (n >= 100),2
+209,42,neutral,317
+210,43,progressive (25 <= n <= 99),480
+211,43,conservative (25 <= n <= 99),272
+212,43,progressive (n >= 100),1
+213,43,conservative (n >= 100),5
+214,43,neutral,292
+215,44,progressive (25 <= n <= 99),514
+216,44,conservative (25 <= n <= 99),265
+217,44,progressive (n >= 100),0
+218,44,conservative (n >= 100),3
+219,44,neutral,269
+220,45,progressive (25 <= n <= 99),468
+221,45,conservative (25 <= n <= 99),222
+222,45,progressive (n >= 100),0
+223,45,conservative (n >= 100),2
+224,45,neutral,249
+225,46,progressive (25 <= n <= 99),477
+226,46,conservative (25 <= n <= 99),245
+227,46,progressive (n >= 100),2
+228,46,conservative (n >= 100),3
+229,46,neutral,194
+230,47,progressive (25 <= n <= 99),510
+231,47,conservative (25 <= n <= 99),247
+232,47,progressive (n >= 100),5
+233,47,conservative (n >= 100),3
+234,47,neutral,230
+235,48,progressive (25 <= n <= 99),466
+236,48,conservative (25 <= n <= 99),234
+237,48,progressive (n >= 100),2
+238,48,conservative (n >= 100),1
+239,48,neutral,206
+240,49,progressive (25 <= n <= 99),400
+241,49,conservative (25 <= n <= 99),223
+242,49,progressive (n >= 100),1
+243,49,conservative (n >= 100),5
+244,49,neutral,180
+245,50,progressive (25 <= n <= 99),480
+246,50,conservative (25 <= n <= 99),241
+247,50,progressive (n >= 100),3
+248,50,conservative (n >= 100),5
+249,50,neutral,196
+250,51,progressive (25 <= n <= 99),374
+251,51,conservative (25 <= n <= 99),212
+252,51,progressive (n >= 100),2
+253,51,conservative (n >= 100),1
+254,51,neutral,167
+255,52,progressive (25 <= n <= 99),384
+256,52,conservative (25 <= n <= 99),190
+257,52,progressive (n >= 100),3
+258,52,conservative (n >= 100),1
+259,52,neutral,163
+260,53,progressive (25 <= n <= 99),368
+261,53,conservative (25 <= n <= 99),203
+262,53,progressive (n >= 100),4
+263,53,conservative (n >= 100),1
+264,53,neutral,141
+265,54,progressive (25 <= n <= 99),354
+266,54,conservative (25 <= n <= 99),197
+267,54,progressive (n >= 100),4
+268,54,conservative (n >= 100),1
+269,54,neutral,138
+270,55,progressive (25 <= n <= 99),368
+271,55,conservative (25 <= n <= 99),211
+272,55,progressive (n >= 100),2
+273,55,conservative (n >= 100),3
+274,55,neutral,140
+275,56,progressive (25 <= n <= 99),413
+276,56,conservative (25 <= n <= 99),217
+277,56,progressive (n >= 100),6
+278,56,conservative (n >= 100),1
+279,56,neutral,116
+280,57,progressive (25 <= n <= 99),366
+281,57,conservative (25 <= n <= 99),189
+282,57,progressive (n >= 100),7
+283,57,conservative (n >= 100),1
+284,57,neutral,106
+285,58,progressive (25 <= n <= 99),409
+286,58,conservative (25 <= n <= 99),220
+287,58,progressive (n >= 100),5
+288,58,conservative (n >= 100),2
+289,58,neutral,114
+290,59,progressive (25 <= n <= 99),350
+291,59,conservative (25 <= n <= 99),181
+292,59,progressive (n >= 100),2
+293,59,conservative (n >= 100),5
+294,59,neutral,110
+295,60,progressive (25 <= n <= 99),341
+296,60,conservative (25 <= n <= 99),147
+297,60,progressive (n >= 100),5
+298,60,conservative (n >= 100),1
+299,60,neutral,105
+300,61,progressive (25 <= n <= 99),345
+301,61,conservative (25 <= n <= 99),209
+302,61,progressive (n >= 100),2
+303,61,conservative (n >= 100),6
+304,61,neutral,107
+305,62,progressive (25 <= n <= 99),295
+306,62,conservative (25 <= n <= 99),152
+307,62,progressive (n >= 100),4
+308,62,conservative (n >= 100),3
+309,62,neutral,79
+310,63,progressive (25 <= n <= 99),327
+311,63,conservative (25 <= n <= 99),126
+312,63,progressive (n >= 100),4
+313,63,conservative (n >= 100),2
+314,63,neutral,89
+315,64,progressive (25 <= n <= 99),305
+316,64,conservative (25 <= n <= 99),157
+317,64,progressive (n >= 100),2
+318,64,conservative (n >= 100),5
+319,64,neutral,86
+320,65,progressive (25 <= n <= 99),340
+321,65,conservative (25 <= n <= 99),180
+322,65,progressive (n >= 100),5
+323,65,conservative (n >= 100),3
+324,65,neutral,94
+325,66,progressive (25 <= n <= 99),297
+326,66,conservative (25 <= n <= 99),194
+327,66,progressive (n >= 100),4
+328,66,conservative (n >= 100),10
+329,66,neutral,69
+330,67,progressive (25 <= n <= 99),246
+331,67,conservative (25 <= n <= 99),101
+332,67,progressive (n >= 100),3
+333,67,conservative (n >= 100),1
+334,67,neutral,48
+335,68,progressive (25 <= n <= 99),341
+336,68,conservative (25 <= n <= 99),147
+337,68,progressive (n >= 100),1
+338,68,conservative (n >= 100),4
+339,68,neutral,61
+340,69,progressive (25 <= n <= 99),348
+341,69,conservative (25 <= n <= 99),137
+342,69,progressive (n >= 100),4
+343,69,conservative (n >= 100),4
+344,69,neutral,90
+345,70,progressive (25 <= n <= 99),262
+346,70,conservative (25 <= n <= 99),106
+347,70,progressive (n >= 100),1
+348,70,conservative (n >= 100),6
+349,70,neutral,38
+350,71,progressive (25 <= n <= 99),212
+351,71,conservative (25 <= n <= 99),100
+352,71,progressive (n >= 100),0
+353,71,conservative (n >= 100),4
+354,71,neutral,39
+355,72,progressive (25 <= n <= 99),267
+356,72,conservative (25 <= n <= 99),88
+357,72,progressive (n >= 100),2
+358,72,conservative (n >= 100),2
+359,72,neutral,37
+360,73,progressive (25 <= n <= 99),223
+361,73,conservative (25 <= n <= 99),80
+362,73,progressive (n >= 100),7
+363,73,conservative (n >= 100),1
+364,73,neutral,37
+365,74,progressive (25 <= n <= 99),203
+366,74,conservative (25 <= n <= 99),71
+367,74,progressive (n >= 100),4
+368,74,conservative (n >= 100),1
+369,74,neutral,20
+370,75,progressive (25 <= n <= 99),241
+371,75,conservative (25 <= n <= 99),70
+372,75,progressive (n >= 100),7
+373,75,conservative (n >= 100),5
+374,75,neutral,43
+375,76,progressive (25 <= n <= 99),197
+376,76,conservative (25 <= n <= 99),72
+377,76,progressive (n >= 100),4
+378,76,conservative (n >= 100),4
+379,76,neutral,26
+380,77,progressive (25 <= n <= 99),224
+381,77,conservative (25 <= n <= 99),68
+382,77,progressive (n >= 100),8
+383,77,conservative (n >= 100),4
+384,77,neutral,34
+385,78,progressive (25 <= n <= 99),194
+386,78,conservative (25 <= n <= 99),63
+387,78,progressive (n >= 100),1
+388,78,conservative (n >= 100),1
+389,78,neutral,29
+390,79,progressive (25 <= n <= 99),188
+391,79,conservative (25 <= n <= 99),51
+392,79,progressive (n >= 100),7
+393,79,conservative (n >= 100),2
+394,79,neutral,26
+395,80,progressive (25 <= n <= 99),180
+396,80,conservative (25 <= n <= 99),55
+397,80,progressive (n >= 100),3
+398,80,conservative (n >= 100),5
+399,80,neutral,33
+400,81,progressive (25 <= n <= 99),263
+401,81,conservative (25 <= n <= 99),106
+402,81,progressive (n >= 100),12
+403,81,conservative (n >= 100),3
+404,81,neutral,33
+405,82,progressive (25 <= n <= 99),163
+406,82,conservative (25 <= n <= 99),56
+407,82,progressive (n >= 100),3
+408,82,conservative (n >= 100),3
+409,82,neutral,27
+410,83,progressive (25 <= n <= 99),192
+411,83,conservative (25 <= n <= 99),48
+412,83,progressive (n >= 100),12
+413,83,conservative (n >= 100),1
+414,83,neutral,15
+415,84,progressive (25 <= n <= 99),237
+416,84,conservative (25 <= n <= 99),49
+417,84,progressive (n >= 100),6
+418,84,conservative (n >= 100),1
+419,84,neutral,21
+420,85,progressive (25 <= n <= 99),233
+421,85,conservative (25 <= n <= 99),52
+422,85,progressive (n >= 100),8
+423,85,conservative (n >= 100),2
+424,85,neutral,19
+425,86,progressive (25 <= n <= 99),172
+426,86,conservative (25 <= n <= 99),32
+427,86,progressive (n >= 100),4
+428,86,conservative (n >= 100),1
+429,86,neutral,15
+430,87,progressive (25 <= n <= 99),162
+431,87,conservative (25 <= n <= 99),51
+432,87,progressive (n >= 100),4
+433,87,conservative (n >= 100),6
+434,87,neutral,19
+435,88,progressive (25 <= n <= 99),175
+436,88,conservative (25 <= n <= 99),41
+437,88,progressive (n >= 100),5
+438,88,conservative (n >= 100),1
+439,88,neutral,17
+440,89,progressive (25 <= n <= 99),174
+441,89,conservative (25 <= n <= 99),37
+442,89,progressive (n >= 100),7
+443,89,conservative (n >= 100),0
+444,89,neutral,14
+445,90,progressive (25 <= n <= 99),112
+446,90,conservative (25 <= n <= 99),44
+447,90,progressive (n >= 100),2
+448,90,conservative (n >= 100),2
+449,90,neutral,11
+450,91,progressive (25 <= n <= 99),245
+451,91,conservative (25 <= n <= 99),55
+452,91,progressive (n >= 100),8
+453,91,conservative (n >= 100),4
+454,91,neutral,14
+455,92,progressive (25 <= n <= 99),116
+456,92,conservative (25 <= n <= 99),25
+457,92,progressive (n >= 100),4
+458,92,conservative (n >= 100),0
+459,92,neutral,6
+460,93,progressive (25 <= n <= 99),210
+461,93,conservative (25 <= n <= 99),57
+462,93,progressive (n >= 100),12
+463,93,conservative (n >= 100),4
+464,93,neutral,18
+465,94,progressive (25 <= n <= 99),1726
+466,94,conservative (25 <= n <= 99),305
+467,94,progressive (n >= 100),185
+468,94,conservative (n >= 100),19
+469,94,neutral,73

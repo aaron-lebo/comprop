@@ -1,0 +1,124 @@
+This is BibTeX, Version 0.99d (TeX Live 2023/Homebrew)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: sample.aux
+The style file: chicago.bst
+A level-1 auxiliary file: 2016/subreddits.aux
+A level-1 auxiliary file: 2016/doms.aux
+A level-1 auxiliary file: 2016/doms_progressive.aux
+A level-1 auxiliary file: 2016/doms_conservative.aux
+A level-1 auxiliary file: 2016/doms_progressive1.aux
+A level-1 auxiliary file: 2016/doms_conservative1.aux
+A level-1 auxiliary file: 2016/doms_progressive_wiki.aux
+A level-1 auxiliary file: 2016/doms_conservative_wiki.aux
+A level-1 auxiliary file: 2016/summary.aux
+A level-1 auxiliary file: 2016/topk.aux
+A level-1 auxiliary file: 2016/user_bet_cent.aux
+A level-1 auxiliary file: 2016/user_tot_deg.aux
+A level-1 auxiliary file: 2022/doms.aux
+A level-1 auxiliary file: 2022/group_stats.aux
+A level-1 auxiliary file: 2022/bet_cent.aux
+A level-1 auxiliary file: 2022/tot_deg.aux
+Reallocated field_info (elt_size=4) to 10244 items from 5000.
+Database file #1: references.bib
+Warning--no number and no volume in nyt:globalresearch
+Warning--page numbers missing in nyt:globalresearch
+Warning--no number and no volume in wp-2019
+Warning--page numbers missing in wp-2019
+Warning--no number and no volume in putin2018
+Warning--page numbers missing in putin2018
+Warning--no number and no volume in cnbc-2019
+Warning--page numbers missing in cnbc-2019
+Warning--no number and no volume in browne2018
+Warning--page numbers missing in browne2018
+Warning--no number and no volume in bubola2022
+Warning--page numbers missing in bubola2022
+Warning--no number and no volume in chen2016
+Warning--page numbers missing in chen2016
+Warning--no number and no volume in coker2007
+Warning--page numbers missing in coker2007
+Warning--no number and no volume in collins2022
+Warning--page numbers missing in collins2022
+Warning--no volume for d2015
+Warning--page numbers missing in d2015
+Warning--no number and no volume in finnegan2016
+Warning--page numbers missing in finnegan2016
+Warning--no number and no volume in gilbert2021
+Warning--page numbers missing in gilbert2021
+Warning--no number and no volume in goertzel1994
+Warning--no number and no volume in nyt-2019
+Warning--page numbers missing in nyt-2019
+Warning--no number and no volume in lazitski2020
+Warning--no number and no volume in reddit
+Warning--page numbers missing in reddit
+Warning--no number and no volume in ling2021
+Warning--page numbers missing in ling2021
+Warning--no number and no volume in lizardo2003
+Warning--no number and no volume in jones2022
+Warning--page numbers missing in jones2022
+Warning--no number and no volume in mcpherson2001
+Warning--no journal in moreno1934
+Warning--no number and no volume in moreno1934
+Warning--page numbers missing in moreno1934
+Warning--no journal in world2020
+Warning--no number and no volume in world2020
+Warning--page numbers missing in world2020
+Warning--no number and no volume in patterson2013
+Warning--page numbers missing in patterson2013
+Warning--no number and no volume in pew2016
+Warning--page numbers missing in pew2016
+Warning--page numbers missing in putnam1993
+Warning--no number and no volume in roose2020
+Warning--page numbers missing in roose2020
+Warning--no number and no volume in schager2021
+Warning--page numbers missing in schager2021
+Warning--no number and no volume in spangler2016
+Warning--page numbers missing in spangler2016
+Warning--no number and no volume in spring2020
+Warning--page numbers missing in spring2020
+Warning--page numbers missing in van2008
+Warning--no number and no volume in williams1988
+Warning--no number and no volume in yurieff2017
+Warning--page numbers missing in yurieff2017
+Warning--no number and no volume in zonis1994
+You've used 228 entries,
+            2861 wiz_defined-function locations,
+            1790 strings with 38939 characters,
+and the built_in function-call counts, 143166 in all, are:
+= -- 11513
+> -- 10158
+< -- 11
++ -- 2934
+- -- 3608
+* -- 12152
+:= -- 27161
+add.period$ -- 741
+call.type$ -- 228
+change.case$ -- 1509
+chr.to.int$ -- 225
+cite$ -- 288
+duplicate$ -- 4077
+empty$ -- 8976
+format.name$ -- 3984
+if$ -- 25888
+int.to.chr$ -- 4
+int.to.str$ -- 0
+missing$ -- 289
+newline$ -- 1167
+num.names$ -- 2274
+pop$ -- 1172
+preamble$ -- 1
+purify$ -- 2946
+quote$ -- 0
+skip$ -- 4271
+stack$ -- 0
+substring$ -- 7094
+swap$ -- 1286
+text.length$ -- 11
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 3798
+warning$ -- 60
+while$ -- 2283
+width$ -- 0
+write$ -- 3057
+(There were 60 warnings)
